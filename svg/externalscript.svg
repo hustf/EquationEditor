@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     version="1.1"  baseProfile="tiny"
+     width="220mm" height="220mm" viewBox="0 0 220 220">
+<desc>Template for equation editor</desc>
+    <defs>
+    <style>
+             /* brown-cyan color scheme https://github.com/cormullion/ColorSchemes.jl
+                 starting brown, lightest at co5 and co6, blue at 9 */ 
+            :root {--co1: rgb(89,51,22);
+            --co2: rgb(143,107,74);
+            --co3: rgb(186,157,131);
+            --co4: rgb(210,195,178);
+            --co5: rgb(213,225,219);
+            --co6: rgb(194,239,243);
+            --co7: rgb(163,236,248);
+            --co8: rgb(129,218,239);
+            --co9: rgb(87,166,197);
+				}
+                 svg {font-family: Verdana,sans-serif;font-size:4px;
+                        margin:0 0 0 0;
+                        background:var(--co1);
+                        text-anchor:middle;
+                     /* fill in svg corresponds to color in html css. could also use inherit current color for more flexibility.*/ 
+                        fill:var(--co7);
+						-moz-user-select: none;
+						-ms-user-select: none;
+						user-select: none;
+             /* redefined for specific elements below*/ 
+                        stroke:var(--co4); 
+                        }
+                text {stroke-width:0em; transform:translate(0, .3em);pointer-events: all;}
+                text:hover {stroke-width:0.05em;stroke:var(--co6);visibility:visible}
+                circle {stroke:var(--co2);fill:var(--co3);fill-opacity:0.6;stroke-width:.05em;stroke-opacity:0.6; r:4em;}
+				circle.co1{stroke:var(--co1);fill:var(--co1)}
+				circle.co2{stroke:var(--co1);fill:var(--co2)}
+				circle.co3{stroke:var(--co2);fill:var(--co3)}
+				circle.co4{stroke:var(--co3);fill:var(--co4)}
+				circle.co5{stroke:var(--co4);fill:var(--co5)}
+				circle.co6{stroke:var(--co5);fill:var(--co6)}
+				circle.co7{stroke:var(--co6);fill:var(--co7)}
+				circle.co8{stroke:var(--co7);fill:var(--co8)}
+				circle.co9{stroke:var(--co8);fill:var(--co9)}
+                polyline {fill:none;stroke:var(--co2);stroke-width:.05em;}
+                polyline:hover {stroke-width:.4em;}
+				polyline.co1{stroke:var(--co1)}
+				polyline.co2{stroke:var(--co1)}
+				polyline.co3{stroke:var(--co2)}
+				polyline.co4{stroke:var(--co3)}
+				polyline.co5{stroke:var(--co4)}
+				polyline.co6{stroke:var(--co5)}
+				polyline.co7{stroke:var(--co6)}
+				polyline.co8{stroke:var(--co7)}
+				polyline.co9{stroke:var(--co8)}
+                g {
+                    cursor: move; /* fallback: no `url()` support or images disabled */
+                    cursor: url(images/grab.cur); /* fallback: Internet Explorer */
+                    cursor: -webkit-grab; /* Chrome 1-21, Safari 4+ */
+                    cursor:    -moz-grab; /* Firefox 1.5-26 */
+                    cursor:         grab; /* W3C standards syntax, should come least */
+                }
+                g:active {
+                    cursor: url(images/grabbing.cur);
+                    cursor: -webkit-grabbing;
+                    cursor:    -moz-grabbing;
+                    cursor:         grabbing;
+                            }
+                 rect {stroke:var(--co1);fill:var(--co2);fill-opacity:0.6;stroke-width:.05em;}   
+                </style>
+    </defs>
+  <rect width="10%" height="100%" class ="moveoverrequestupdate" />
+  <rect width="10%" height="100%" class ="moveoverrequestupdate" />
+<script xlink:href="svg/equation_editor_script.js" />
+</svg>
