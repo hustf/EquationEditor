@@ -1,14 +1,14 @@
 <script>
 "use strict";
 window.onload= function(){
-					log("window.onload") 
+					log("window.onload")
                     addgraphtemplate();
                     adduserevents();
 					ws = addwebsocket();
 					ws.onclose = function(e){log("Websocket was closed: ", e)}
 					ws.onerror = function(e){log("Websocket has an error: ", e)}
 					ws.onopen = function(e){log("Websocket opens: ", e);
-											sendJsonText("connect")}	
+											sendJsonText("connect")}
 					ws.onmessage	= function(e){//log("Websocket message: ", e);
 															receiveJson(e) }
 					var svg = document.firstElementChild;
@@ -17,7 +17,7 @@ window.onload= function(){
 				} // onload
 
 // ***    Save document through post, intended for script generated svg but may work for other xhtml types ***
-// 
+//
 function postcurrentdom(){
    		var docHTML = document.firstElementChild.outerHTML;
         // make a copy of the DOM
@@ -46,7 +46,7 @@ function postcurrentdom(){
 			if(http.readyState == 4){
 				if(http.status == 200) {
 					alert(http.responseText);
-					};//if 
+					};//if
 				}; //if
 			};//readystatechange callback
 		http.send(docHTML);
@@ -112,49 +112,49 @@ function addlinkstonode(toid, vfrom){
 					} //if
 				} // for
 			} //i f
-		} // if 
+		} // if
 	} // addlinkstonode
-	
+
 function addobjlinkstonode(gto, toid, vfrom){
 					if (gto){
 						var svg = document.firstElementChild;
 						for(var i in vfrom){
 						if (vfrom.hasOwnProperty(i)) {
 												var fromid = vfrom[i];
-												addobjlink(svg, toid, fromid, gto, 
+												addobjlink(svg, toid, fromid, gto,
 																	svg.getElementById(fromid))
 											} //if
 										} //for
 					} //if
-	} // addobjlinkstonode	
-	
+	} // addobjlinkstonode
+
 function addlinksfromnode(fromid, vto){
 					for(var i in vto){
 						if (vto.hasOwnProperty(i)) {
 												addlink(vto[i], fromid)
 											} //if
-					} //for 
+					} //for
 	} // addlinksfromnode
-	
+
 function addobjlinksfromnode(gfrom, fromid, vto){
 		if (gfrom){
 			var svg = document.firstElementChild;
 			for(var i in vto){
 			if (vto.hasOwnProperty(i)) {
 									var toid = vto[i];
-									addobjlink(svg, toid, fromid, 
-														svg.getElementById(toid), 
+									addobjlink(svg, toid, fromid,
+														svg.getElementById(toid),
 														gfrom)
 								} //if
 							} //for
 		} //if
-	} // addobjlinksfromnode	
-	
-	
+	} // addobjlinksfromnode
+
+
 function addlink(toid, fromid ){
     var svg = document.firstElementChild;
-	addobjlink(svg, toid, fromid, 
-									svg.getElementById(toid), 
+	addobjlink(svg, toid, fromid,
+									svg.getElementById(toid),
 									svg.getElementById(fromid)
 					)
 	} // addlink
@@ -166,7 +166,7 @@ function addobjlink(svg, toid, fromid, gto, gfrom){
 		if (gfrom){
 				var arro = svg.getElementById(toid +"--from--" + fromid);
 				if (!arro){
-							pushUniqueData(gto, "from", fromid) 
+							pushUniqueData(gto, "from", fromid)
 							pushUniqueData(gfrom, "to", toid)
 						} // if arro
 				var cto = gto.getElementsByTagName("circle")[0]
@@ -213,7 +213,7 @@ function addobjlink(svg, toid, fromid, gto, gfrom){
 // addpline is for debugging units and scale. No user events added.
 // coordinates are [vectors]. Appended in the foreground.
 // if there is already a polyline with identical id, will move that line instead.
-// No checking that the element with id is of the polyline type. 	 
+// No checking that the element with id is of the polyline type.
 function addpline(svg, id, vx, vy){
 	log("addpline")
 	if (svg){
@@ -233,31 +233,31 @@ function addpline(svg, id, vx, vy){
 					} // for
 			}	//if svg
 	 } // addpline
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // deletes the arrow and updates the nodes link data
 function deletelink(toid, fromid ){
     var svg = document.firstElementChild;
@@ -268,12 +268,12 @@ function deletelink(toid, fromid ){
 		if (gto!=null){
 			if (arro!=null){
 						deleteobjlink(svg, toid, fromid, gto, gfrom, arro)
-							}		
+							}
 						}
 					}
 	} // deletelink
 function deleteobjlink(svg, toid, fromid, gto, gfrom, arro){
-	deleteData(gto, "from", fromid) 
+	deleteData(gto, "from", fromid)
 	deleteData(gfrom, "to", toid)
 	arro.removeEventListener("pointerdown", mousedownL, false)
 	svg.removeChild(arro)
@@ -283,37 +283,37 @@ function deletelinkstonode(toid, vfrom){
 						if (vfrom.hasOwnProperty(i)) {
 												deletelink(toid, vfrom[i])
 											} //if
-					} //for 
+					} //for
 	} // deletelinkstonode
-	
+
 function deleteobjlinkstonode(svg, gto, toid, vfrom){
 					for(var i in vfrom){
 						if (vfrom.hasOwnProperty(i)){
 												var fromid = vfrom[i];
-												deleteobjlink(svg, toid, fromid, gto, 
-																	svg.getElementById(fromid), 
+												deleteobjlink(svg, toid, fromid, gto,
+																	svg.getElementById(fromid),
 																	svg.getElementById(toid +"--from--" + fromid)
 																	)
 											} //if
-					} //for 
+					} //for
 	} // deleteobjlinkstonode
-	
+
 function deletelinksfromsinglenode(fromid, vto){
 					for(var i in vto){
 						if (vto.hasOwnProperty(i)) {
 												deletelink(vto[i], fromid)
 											} //if
-					} //for 
+					} //for
 	} // deletelinksfromsinglenode
 
 function pushUniqueData(g, attname, value) {
-	// TODO optimize this for speed. 
+	// TODO optimize this for speed.
 	// also, no need to call this if arro exists.
 	var oldAtt = g.dataset[attname];
     if (oldAtt === undefined){
 				// log("Group ", g.id, ": Setting new data set '", attname, "' with value '", value, "'" );
 				g.dataset[attname] = JSON.stringify([value])
-			} else {		
+			} else {
 				// log("Group ", g.id, ": Extending data'", attname, "' with value '", value , "'");
 				var existingSet = new Set(JSON.parse(oldAtt));
 				existingSet.add(value);
@@ -325,7 +325,7 @@ function deleteData(g, attname, value) {
 	var oldAtt = g.dataset[attname];
     if (oldAtt === undefined){
 				// this would be unexpected, ignore.
-			} else {		
+			} else {
 				//log("Group ", g.id, ": Removing data'", attname, "' value '", value , "'");
 				var existingSet = new Set(JSON.parse(oldAtt));
 				existingSet.delete(value);
@@ -351,7 +351,7 @@ function deleteselectedG(){
 					deleteobjG(document.firstElementChild, selectedG)
         } // deleteselectedG
 
-// deletes group and associated links.		
+// deletes group and associated links.
 function deleteobjG(svg, G){
                 if (G) {
 					G.removeEventListener("pointerdown", mousedownG, false);
@@ -360,10 +360,10 @@ function deleteobjG(svg, G){
 					deleteobjGlinks(svg, G);
 					svg.removeChild(G);
                 } // if
-        } // deleteobjG		
-		
-		
-		
+        } // deleteobjG
+
+
+
 // called by mousemoveG. Selected nodes are moved by user.
 function moveselectedG(e){
             if (selectedG) {
@@ -392,19 +392,19 @@ function moveselectedGlinks(){
 			var sfrom = selectedG.dataset.from;
 			if (sfrom === undefined){
 				//log("Group ", selectedG.id, ": No 'from' defined")
-			} else {		
+			} else {
 				// log("Group ", selectedG.id, ": 'from' defined: ", sfrom);
 				var vfrom = JSON.parse(sfrom);
 				addlinkstonode(selectedG.id, vfrom)
-			} // if else			
+			} // if else
 			var sto = selectedG.dataset.to;
 			if (sto=== undefined){
 				//log("Group ", selectedG.id, ": No 'to' defined")
-			} else {		
+			} else {
 				// log("Group ", selectedG.id, ": 'to' defined: ", sto);
 				var vto = JSON.parse(sto);
 				addlinksfromnode(selectedG.id, vto)
-			} // if else						
+			} // if else
         } // if
 } // moveselectedGlinks
 
@@ -415,12 +415,12 @@ function moveobjGlinks(G){
 				// TODO consider split
 						var vfrom = JSON.parse(sfrom);
 						addobjlinkstonode(G, G.id, vfrom)
-					} // if 			
+					} // if
 			var sto = G.dataset.to;
 			if (sto){
 						var vto = JSON.parse(sto);
 						addobjlinksfromnode(G, G.id, vto)
-					} // if 					
+					} // if
 			} // if
 	} // moveobjGlinks
 
@@ -439,17 +439,17 @@ function deleteobjGlinks(svg, G){
 				var vfrom = JSON.parse(sfrom);
 				// deletelinkstonode(G.id, vfrom)
 				deleteobjlinkstonode(svg, G, G.id, vfrom)
-						}	 // if 			
+						}	 // if
 			var sto = G.dataset.to;
 			if (sto){
 				// TODO consider using split.
 				var vto = JSON.parse(sto);
 				deletelinksfromsinglenode(G.id, vto)
-					} // if 						
+					} // if
 				} // if
 	} // deleteobjGlinks
 
-	
+
 // Scale all nodes css values. dvisual = Layout.dnominal(stowage, border, nodes) * Layout.dscale
 // dvisual = 1.0 fills the svg.
 function scalenodes(dvisual){
@@ -466,16 +466,16 @@ function scalenodes(dvisual){
 	} // scalenodes
 
 function addnode(svg, id, x, y, r){
-				if (svg.getElementById(id) == null){	
+				if (svg.getElementById(id) == null){
 						var entry = svg.appendChild(addG(id, x, y, r) )
 						entry.addEventListener("pointerdown", mousedownG, false);
 						listen(entry, "pointermove", mousemoveG);
-						entry.addEventListener("pointerup", mouseupG, false);	
+						entry.addEventListener("pointerup", mouseupG, false);
 				} // if not existing
 	} // addnode
 // nodes nominally have size r2px by default.
 // relsize can be used to adjust the size relative to that.
-// Relsize must be a natural number 
+// Relsize must be a natural number
 function setnodesize(svg, nodeid, relsize){
 					if (Math.sign(relsize)==-1 ){
 						log("setnodesize argument must be larger than 0. Not accepted: ", relsize)
@@ -491,9 +491,9 @@ function setnodesize(svg, nodeid, relsize){
 							if (g){
 								var ci = g.getElementsByTagName("circle")[0]
 								if (relsize==1){
-									ci.removeAttribute('r') 
+									ci.removeAttribute('r')
 								} else {
-									ci.setAttribute('r', relsize) 
+									ci.setAttribute('r', relsize)
 								}
 								g.transform.baseVal[0].matrix.a = relsize
 								g.transform.baseVal[0].matrix.d = relsize
@@ -526,10 +526,10 @@ function setelementcolor(svg, elementid, colorvar){
 							} //if
 						} // if
 					} // if
-				} // if				
+				} // if
 	} // setelementcolor
-	
-	
+
+
 // although any element can be brought forward, this is intended for
 // groups (includes text and circle) and for links
 // group names are the same as node names.
@@ -541,7 +541,7 @@ function bringelementtofront(svg, elementid){
 							} //if
 	} // bringelementtofront
 
-// the last element in the ids list will end up in front.	
+// the last element in the ids list will end up in front.
 function bringelementstofront(ids){
 				var svg = document.firstElementChild;
 				var velementids = ids.split("|")
@@ -581,8 +581,8 @@ function setnodessize(ids, relsizes){
 	} // setnodessize
 
 
-	
-	
+
+
 function addnodes(ids, vx, vy){
 				var svg = document.firstElementChild;
 				var vnodeids = ids.split("|")
@@ -602,7 +602,7 @@ function deletenodes(ids){
 											} //if
 					} // for
 	} // deletenodes
-	
+
 function addlinks(ids){
 				var vlinkids = ids.split("|")
 				for(var i in vlinkids){
@@ -622,7 +622,7 @@ function deletelinks(ids){
 										} //if
 					} // for
 	} // deletelinks
-	
+
 // tag: text, circle, polyline, rect
 // value: "visible", "hidden", "collapse", "inherit"
 function settagvisibility(tag, value){
@@ -632,9 +632,9 @@ function settagvisibility(tag, value){
 					cssrule.style.visibility = value
 		} //if
 	} // settagvisibility
-	
+
 // Called by doinstruction. Move group including existing links,
-// don't move selected nodes. 
+// don't move selected nodes.
 function moveG(svg, nodeid, px, py){
 			var node = svg.getElementById(nodeid);
 			// log("moveG", nodeid, px, py)
@@ -644,33 +644,33 @@ function moveG(svg, nodeid, px, py){
 					var ex = px*em2px;
 					var ey = py*em2px;
 					// TODO why px, not ex?
-					node.transform.baseVal[0].matrix.e = px; 
+					node.transform.baseVal[0].matrix.e = px;
 					node.transform.baseVal[0].matrix.f = py;
 					// move links
 					var sfrom = node.dataset.from;
 					if (sfrom === undefined){
 						//log("Group ", node.id, ": No 'from' defined")
-					} else {		
+					} else {
 						// log("Group ", node.id, ": 'from' defined: ", sfrom);
 						var vfrom = JSON.parse(sfrom);
 						addlinkstonode(node.id, vfrom)  // TODO don't go from object to string and back, save time?
-					} // if else			
+					} // if else
 					var sto = node.dataset.to;
 					if (sto === undefined){
 						//log("Group ", node.id, ": No 'to' defined")
-					} else {		
+					} else {
 						// log("Group ", node.id, ": 'to' defined: ", sto);
 						var vto = JSON.parse(sto);
 						addlinksfromnode(node.id, vto)
-					} // if else						
+					} // if else
 				} // if
 			}//if
         }// moveG
 
-		
-		
+
+
 // Called by doinstruction. Move node groups including existing links,
-// don't move selected nodes. 
+// don't move selected nodes.
 function movenodes(nodeids, vx, vy){
 			var svg = document.firstElementChild;
 			var vnodeids = nodeids.split("|")
@@ -681,29 +681,29 @@ function movenodes(nodeids, vx, vy){
 				} // for
         }// movenodes
 
-		
+
 function ws_nodePos(G){
 	if (G){sendJsonText("nodepos", G.id,
-								G.transform.baseVal[0].matrix.e , 
-								G.transform.baseVal[0].matrix.f ) 
+								G.transform.baseVal[0].matrix.e ,
+								G.transform.baseVal[0].matrix.f )
 			} //if
 	} // ws_nodePos
 
 function ws_deletenode(){
 	if (selectedG){
 		var id = selectedG.id;
-		sendJsonText("deletenode", id) 
+		sendJsonText("deletenode", id)
 		} //if
 	} // ws_deletenode
 
 function ws_deletelink(id){
-		sendJsonText("deletelink", id) 
+		sendJsonText("deletelink", id)
 	} // ws_deletelink
 
 function actionOnEmpty(){
 	var svg = document.firstElementChild;
 	if (svg.getElementsByTagName("g").length==0){
-		sendJsonText("actiononempty", "width|height", svg.width.baseVal.value / em2px, svg.height.baseVal.value / em2px) 	
+		sendJsonText("actiononempty", "width|height", svg.width.baseVal.value / em2px, svg.height.baseVal.value / em2px)
 		} //if
 	} // actionOnEmpty
 
@@ -713,7 +713,7 @@ function clearsvg(svg){
 					deleteobjG(svg, gs[0]);
 					gs = svg.getElementsByTagName("g")
 			} // while
-			
+
 		var ps = svg.getElementsByTagName("polyline")
 		while(ps.hasOwnProperty(0)){
 					deleteobjG(svg, ps[0]);
@@ -776,7 +776,7 @@ function mouseupG(e) {
             selectedG = null;
 			requestupdate();
         }// mouseupG
-// log all arguments 
+// log all arguments
 
 function mousedownL(e){
     // ctrl key must also be pressed.
@@ -790,13 +790,13 @@ function mousedownL(e){
 // called by observer. Disabled. Hard to throttle?
 function changedDom(){
 		requestupdate()
-	} // changedDom	
+	} // changedDom
 
 function requestupdate(){
 		//log("requestupdate");
 		var svg = document.firstElementChild;
 		sendJsonText("requestupdate", "width|height", svg.width.baseVal.value / em2px, svg.height.baseVal.value / em2px)
-	} //requestupdate	
+	} //requestupdate
 // ***    React to instructions over relay_frontend protocol
 
 function receiveJson(json){
@@ -804,7 +804,7 @@ function receiveJson(json){
 		doinstruction(instruction)
 } // receiveJson
 
-	
+
 function addwebsocket(){//log("Add websocket");
 	var wsuri = document.URL.replace("http:","ws:");
 	return new WebSocket(wsuri, "relay_frontend")
@@ -812,7 +812,7 @@ function addwebsocket(){//log("Add websocket");
 
 
 
-// ***    Utility functions 
+// ***    Utility functions
 function sendJsonText(func, id, a1, a2) {
     if (id == null){
 	               var id = "";
@@ -829,10 +829,10 @@ function sendJsonText(func, id, a1, a2) {
 				//log("sendws")
 		} // if
 	} // if
-  } // sendJsonText 
+  } // sendJsonText
 
-// Instructions are four arguments. First function name, then 
-// a string id, then two numbers, or two vectors of numbers, same length.  
+// Instructions are four arguments. First function name, then
+// a string id, then two numbers, or two vectors of numbers, same length.
 function doinstruction(i){
 		//log(i);
 		switch(i[0]){
@@ -882,7 +882,7 @@ function doinstruction(i){
 				addnodes(i[1], i[2], i[3]);
 				break;
 			case "deletenodes":
-				// deletenodes(ids) 
+				// deletenodes(ids)
 				deletenodes(i[1]);
 				break;
 			case "addlinks":
@@ -890,11 +890,11 @@ function doinstruction(i){
 				addlinks(i[1]);
 				break;
 			case "deletelinks":
-				// deletelinks(ids) 
+				// deletelinks(ids)
 				deletelinks(i[1]);
 				break;
 			case "deletenode":
-				// deletenodes(ids) 
+				// deletenodes(ids)
 				deletenodes(i[1]);
 				break;
 			case "setnodesize":
@@ -938,20 +938,20 @@ function doinstruction(i){
 				break;
 			} // switch
 } // doinstruction
- 
 
 
 
- 
+
+
 function log() {
         if (window.console)
             if (window.console.log)
                 window.console.log( Array.prototype.join.call(arguments, ' '))
-    } // log	
-// finding a css rule is strangely complicated... 
+    } // log
+// finding a css rule is strangely complicated...
 function findcssrule(selectorst){
 		var ss= document.styleSheets[0];
-		// the rules can vary, and are not enumerable. We guess, then iterate to find 
+		// the rules can vary, and are not enumerable. We guess, then iterate to find
 		var theRules = ss.cssRules;
 		if (selectorst == "circle"){
 			var checkrule = theRules[4]
@@ -970,7 +970,7 @@ function findcssrule(selectorst){
 			}  // for
 		} // if
 		if (checkrule.selectorText != selectorst) throw("findcssrule failure")
-		return checkrule	
+		return checkrule
 	} // findcssrule
 
 // start  https://stackoverflow.com/questions/27078285/simple-throttle-in-js lolzery wowzery
@@ -986,7 +986,7 @@ function throttle(func, obj, evt) {
         }
     }
     return cachedThrottleFuncs[ ~(
-        ~cachedThrottleFuncs.indexOf(func) || 
+        ~cachedThrottleFuncs.indexOf(func) ||
         ~(
           cachedThrottleFuncs.push(function(Evt) {
             switch (timeouttype){
@@ -1032,8 +1032,8 @@ function finddefaultradiuspx(){var ci=document.createElementNS('http://www.w3.or
                                 return ra
                             } // finddefaultradiuspx.
 
-							
-// ***    global variables 
+
+// ***    global variables
 // *** TODO use less
 var em2px = findscale();
 // log("em2px = " + em2px)

@@ -11,7 +11,7 @@ const server, task = serveEE()
 server
 task
 
-put!(server.in, "jj")
+put!(server.in, "die!")
 
 task
 

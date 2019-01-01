@@ -981,4 +981,5 @@ const MIMETYPES = Dict("semd"=> "application/vnd.semd",
 "curl"=> "text/vnd.curl",
 "jl" => "text/plain",
 "md" => "text/markdown; charset=UTF-8",
-"vec" =>  "text/plain")
+"vec" =>  "text/plain",
+"mjs" => "text/javascript")

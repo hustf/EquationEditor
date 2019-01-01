@@ -1,54 +1,71 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)http://timmywil.github.io/jquery.panzoom/demo/#focal
-	https://github.com/timmywil/jquery.panzoom-->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Interact</title>
-	<script src="/js/3.1.1/jquery-3.1.1.slim.js"></script>
-    <style>
- /* brown-cyan color scheme https://github.com/cormullion/ColorSchemes.jl
-     starting brown, lightest at co5 and co6, blue at 9 */
-:root {--co1: rgb(89,51,22);
---co2: rgb(143,107,74);
---co3: rgb(186,157,131);
---co4: rgb(210,195,178);
---co5: rgb(213,225,219);
---co6: rgb(194,239,243);
---co7: rgb(163,236,248);
---co8: rgb(129,218,239);
---co9: rgb(87,166,197);	}
-
-	 body {
-			font-family: Verdana,sans-serif;font-size:15px;line-height: 1.5;
-			margin:0 0 0 0;
-			background:var(--co1);}
-    section { text-align: center; margin: 0 0 0 0;height:100%;}
-	header, footer {padding: 0.5em 0.5em 0.8em 0.5em;margin:0 -0.5em 0em -0.5em;
-			clear:both;width:100%;
-			background:var(--co2);
-			color:var(--co7)}
-	footer {position:fixed; bottom:0;left:0;}
-	button { border-radius: 0.3em; background:var(--co3);border-color:var(--co4);color:var(--co5)}
-			.zoom-out {border-radius: 0.67em 0 0 0.67em}
-			.zoom-in {border-radius: 0 0.67em 0.67em 0}
-			.previous {border-radius: 0.67em 0 0 0.67em}
-			.next {border-radius: 0 0.67em 0.67em 0}
-	input { vertical-align: bottom;}
-	input[type="text"] {color:var(--co9); text-align:center; background-color:var(--co5);}
-	input
-	div {overflow: hidden; position: relative;}
-	object { pointer-events:none;}
-
-    </style>
-
-    <script src="/js/jquery.panzoom.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="./browncyan.css">
+		<link rel="modulepreload" href="./lib.mjs">
+		<link rel="modulepreload" href="./main.mjs">
+		<link rel="modulepreload" href="./events/events.mjs">
+		<link rel="modulepreload" href="./gl-vec2/add.mjs">
+		<link rel="modulepreload" href="./gl-vec2/ceil.mjs">
+		<link rel="modulepreload" href="./gl-vec2/clone.mjs">
+		<link rel="modulepreload" href="./gl-vec2/copy.mjs">
+		<link rel="modulepreload" href="./gl-vec2/create.mjs">
+		<link rel="modulepreload" href="./gl-vec2/cross.mjs">
+		<link rel="modulepreload" href="./gl-vec2/dist.mjs">
+		<link rel="modulepreload" href="./gl-vec2/distance.mjs">
+		<link rel="modulepreload" href="./gl-vec2/div.mjs">
+		<link rel="modulepreload" href="./gl-vec2/divide.mjs">
+		<link rel="modulepreload" href="./gl-vec2/dot.mjs">
+		<link rel="modulepreload" href="./gl-vec2/epsilon.mjs">
+		<link rel="modulepreload" href="./gl-vec2/equals.mjs">
+		<link rel="modulepreload" href="./gl-vec2/exactEquals.mjs">
+		<link rel="modulepreload" href="./gl-vec2/floor.mjs">
+		<link rel="modulepreload" href="./gl-vec2/forEach.mjs">
+		<link rel="modulepreload" href="./gl-vec2/fromValues.mjs">
+		<link rel="modulepreload" href="./gl-vec2/index.mjs">
+		<link rel="modulepreload" href="./gl-vec2/inverse.mjs">
+		<link rel="modulepreload" href="./gl-vec2/len.mjs">
+		<link rel="modulepreload" href="./gl-vec2/length.mjs">
+		<link rel="modulepreload" href="./gl-vec2/lerp.mjs">
+		<link rel="modulepreload" href="./gl-vec2/limit.mjs">
+		<link rel="modulepreload" href="./gl-vec2/max.mjs">
+		<link rel="modulepreload" href="./gl-vec2/min.mjs">
+		<link rel="modulepreload" href="./gl-vec2/mul.mjs">
+		<link rel="modulepreload" href="./gl-vec2/multiply.mjs">
+		<link rel="modulepreload" href="./gl-vec2/negate.mjs">
+		<link rel="modulepreload" href="./gl-vec2/normalize.mjs">
+		<link rel="modulepreload" href="./gl-vec2/random.mjs">
+		<link rel="modulepreload" href="./gl-vec2/rotate.mjs">
+		<link rel="modulepreload" href="./gl-vec2/round.mjs">
+		<link rel="modulepreload" href="./gl-vec2/scale.mjs">
+		<link rel="modulepreload" href="./gl-vec2/scaleAndAdd.mjs">
+		<link rel="modulepreload" href="./gl-vec2/set.mjs">
+		<link rel="modulepreload" href="./gl-vec2/sqrDist.mjs">
+		<link rel="modulepreload" href="./gl-vec2/sqrLen.mjs">
+		<link rel="modulepreload" href="./gl-vec2/squaredDistance.mjs">
+		<link rel="modulepreload" href="./gl-vec2/squaredLength.mjs">
+		<link rel="modulepreload" href="./gl-vec2/sub.mjs">
+		<link rel="modulepreload" href="./gl-vec2/subtract.mjs">
+		<link rel="modulepreload" href="./gl-vec2/transformMat2.mjs">
+		<link rel="modulepreload" href="./gl-vec2/transformMat2d.mjs">
+		<link rel="modulepreload" href="./gl-vec2/transformMat3.mjs">
+		<link rel="modulepreload" href="./gl-vec2/transformMat4.mjs">
+		<link rel="modulepreload" href="./impetus/impetus.mjs">
+		<link rel="modulepreload" href="./mouse-event-offset/index.mjs">
+		<link rel="modulepreload" href="./mouse-wheel/wheel.mjs">
+		<link rel="modulepreload" href="./to-px/index.mjs">
+		<link rel="modulepreload" href="./parse-unit/index.mjs">
+		<link rel="modulepreload" href="./pan-zoom/index.mjs">
+		<link rel="modulepreload" href="./touch-pinch/index.mjs">
+		<link rel="modulepreload" href="./touch-position/index.mjs">
   </head>
   <body>
 <section id="focal">
 	<div class="parent">
 	        <div class="panzoom" >
 				<div id="wrapper" >
-					<Object  class = "svgobj" type="image/svg+xml"  data="/svg/Equations.svg" >
+					<Object  class = "svgobj" type="image/svg+xml"  data="/svg/Julia.svg" >
 					</Object>
 				</div>
 			</div>
@@ -64,128 +81,10 @@
 	<button class="next">Next</button>
       </footer>
 </section>
-      <script>
-        (function() {
-          var $section = $('#focal');
-          var $panzoom = $section.find('.panzoom').panzoom({
-							$zoomIn: $section.find(".zoom-in"),
-							$zoomOut: $section.find(".zoom-out"),
-							$zoomRange: $section.find(".zoom-range"),
-							$reset: $section.find(".reset")
-						  });
-          $panzoom.parent().on('mousewheel.focal', function( e ) {
-            e.preventDefault();
-            var delta = e.delta || e.originalEvent.wheelDelta;
-            var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
-            $panzoom.panzoom('zoom', zoomOut, {
-              increment: 0.1,
-              animate: false,
-              focal: e
-            });
-          });
-	    $section.find(".switch").on("click", switchobjpointerevents);
-	    $section.find(".previous").on("click", previousslide);
-		$section.find(".next").on("click", nextslide);
-		$section.find(".svgname").on("keyup", newslide);
-		function switchobjpointerevents(){
-			console.log("switching pointerevents on object");
-			var $section = $('#focal');
-			var svgobj=$section.find(".svgobj")[0];
-			var zoomin= $section.find(".zoom-in")[0];
-			var zoomout= $section.find(".zoom-out")[0];
-			var reset= $section.find(".reset")[0];
-			var zoomRange= $section.find(".zoom-range")[0];
-			if(svgobj.style.pointerEvents !="visible") {
-					svgobj.style.pointerEvents="visible";
-					zoomin.style.visibility = 'hidden';
-					zoomout.style.visibility = 'hidden';
-					zoomout.style.visibility = 'hidden';
-					zoomRange.style.visibility = 'hidden';
-					reset.style.visibility = 'hidden';
-			} else {
-					svgobj.style.pointerEvents="none";
-					zoomin.style.visibility = 'visible';
-					zoomout.style.visibility = 'visible';
-					zoomout.style.visibility = 'visible';
-					zoomRange.style.visibility = 'visible';
-					reset.style.visibility = 'visible';
-					};
-				}; // switchobjpointerevents
-
-// not used......
-			function showslide(slideurl){
-			fetch(slideurl)
-			.then(function(response) {
-				console.log("1");
-				if(response.ok){
-					return response.blob();}
-				{
-					console.log("Not ok 404");
-					throw("Network response was nok ok.");
-				};
-
-			})
-			.then(function(myBlob) {
-				console.log("2")
-			  var objectURL = URL.createObjectURL(myBlob);
-			  $('#focal').find(".svgobj")[0].data = objectURL;
-			  $('#focal').find(".svgname")[0].value = svgname();
-			})
-			.catch(function(error){
-			   console.log('There has been a problem with your fetch operation: ' + error.message);
-			})
-		;};// newslide
-		function previousslide(){
-			$('#focal').find(".svgobj")[0].data = previousslideurl();
-			$('#focal').find(".svgname")[0].value = svgname();
-		}; // previousslide
-		function nextslide(){
-			$('#focal').find(".svgobj")[0].data = nextslideurl();
-			$('#focal').find(".svgname")[0].value = svgname();
-		}; // nextslide
-		function newslide(e){
-			if (e.keyCode == 13){
-				var textinp = $('#focal').find(".svgname")[0].value;
-				var regpat = /(\d+)\.svg$/;
-				var str = "/svg/"+textinp;
-				if(regpat.test(str)){
-					$('#focal').find(".svgobj")[0].data = str;
-				}; // if regpat test
-			}; // if keycode
-		}; // newslide
-		function previousslideurl(){
-			var str=$('#focal').find(".svgobj")[0].data;
-			var regpat = /(\d+)\.svg$/;
-			if(regpat.test(str)){
-				return str.replace(regpat, previousslideno() + ".svg");
-			};
-		}; // previousslideurl
-		function nextslideurl(){
-			var str=$('#focal').find(".svgobj")[0].data;
-			var regpat = /(\d+)\.svg$/;
-			if(regpat.test(str)){
-				return str.replace(regpat, nextslideno() + ".svg");
-			};
-		}; // nextslideurl
-		function currentslideno(){
-			var str=$('#focal').find(".svgobj")[0].data;
-			var regpat = /(\d+)\.svg$/;
-			if(regpat.test(str)){
-				return parseInt(str.match(regpat)[1]);
-			};
-		}; // currentslideno
-		function previousslideno(){
-			return Math.max(currentslideno()-1, 0);
-		}; // previousslideno
-		function nextslideno(){
-			return currentslideno()+1;
-		}; // nextslideno
-		function svgname(){
-			return $('#focal').find(".svgobj")[0].data.split('/').pop();
-		}; // url2filename
-		// show the slide filename between forward and next buttons
-		$('#focal').find(".svgname")[0].value = svgname();
-
-        })(); // jquery ondocumentreadu  function context, runs immediately
+		  <script nomodule>alert ("Your browser does not support ES6 modules")</script>
+      <script type = "module">
+			    console.log("We are ready here");
+					import {panZoom} from "/pan-zoom/index.mjs";
+					//console.log(shout("We are ready here"));
       </script>
 </body></html>

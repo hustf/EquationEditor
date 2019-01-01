@@ -8,10 +8,9 @@ include("mimetypes.jl")
 "Root of LOCFLDRS"
 const FOLDERHOME = replace(joinpath(@__DIR__, "..") |> realpath, "\\" => "/")
 const RGX_FOLDERHOME = Regex("^"* FOLDERHOME)
-# Add some mime types associated with file extensions.
 
 "Contains the local path to folders to expose. Subfolders will also be exposed."
-const LOCFLDRS = [ "/js/", "/html/", "/svg/", "/img/"]
+const LOCFLDRS = [ "/js/", "/html/", "/svg/", "/img/", "/mjs/", "/css/"]
 const IMGEXT = r"jpg|jpeg|png|gif|tiff|tif"
 const TINDEX ="""<!DOCTYPE html><html><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,12 +91,12 @@ _bck2fwdslash(pth) = replace(pth, "\\" => "/")
 _doubleslash2slash(pth) = replace(pth, "//" => "/")
 _nobadchars(pth) = replace(pth, r"^\s*(?:#|$<>~!)" => "")
 _nojumpup(pth) = replace(pth,r"\.{2,}" => "")
-_nokeywords(pth) = replace(pth, r"copy|prn"i=>"")
+_nokeywords(pth) = replace(pth, r"prn"i=>"")
 _maybeindexhtml(pth) = pth =="" || pth[end]=='/' ? pth * "index.html" : pth
-_nostartslash(pth) = startswith(pth, "/") ? pth[2:end] : pth
+_startslash(pth) = startswith(pth, "/") ? pth : "/" * pth
 """
 Converts e.g. %20 to space
-From URIParser.jl, added misformed -> ""
+From URIParser.jl, added: misformed -> ""
 """
 function _unescapeuri(str)
     r = UInt8[]
@@ -124,80 +123,64 @@ Also adds 'index.html' if request does not specify a possible file.
 "
 _censoredrequest(pubreq::String) = pubreq |>  _bck2fwdslash |> _unescapeuri |> _nobadchars |>
                                    lowercase |> _nojumpup |> _nokeywords |>
-                                    _maybeindexhtml |> _doubleslash2slash
+                                    _maybeindexhtml |> _doubleslash2slash |> _startslash
 
 """
-Returns first '/folder/' in LOCFLDRS from a requested resource.
+Returns _locfolder ∈ LOCFLDRS from a requested resource.
 If /folder/ is missing, but file extension corresponds to one
 of LOCFLDRS,
 Defaults to /html/
 # Examples
 ```julia-repl
-_upmostfolder("/cat.svg") -> "/svg/cat.svg"
-_upmostfolder("/cat.unknown") -> "/html/cat.unknown"
-_upmostfolder("/secret/file.txt") -> "/html/"
+_locfolder("/cat.svg") -> "/svg/cat.svg"
+_locfolder("/cat.unknown") -> "/html/cat.unknown"
+_locfolder("/secret/file.txt") -> "/html/"
 ```
 Assumes input is already cleaned of maliciuos requests like "/svg/../../secret/big.txt"
 and is lowercase
 """
-function _upmostfolder(creq::String)
-    if  !occursin(r"^/", creq)
-        @info "Bad argument, does not start with '/' received: " *  creq
-        return "/html/"
+function _locfolder(creq::String)
+    fofirst ="/" * get(split(creq, "/"), 2, "") *"/"
+    fosecond = get(split(creq, "/"), 3, "")
+    fileextension =  splitext(creq)[2][2:end]
+    fofilextension = "/" * replace(fileextension, IMGEXT => "img") * "/"
+    if fofilextension ∈ LOCFLDRS
+        return fofilextension
     end
-    fo ="/" * get(split(creq, "/"), 2, "") *"/"
-    if get(split(creq, "/"), 3, "") == "" &&  creq != fo
-        # the top folder is the only input but it did not end in "/",
-        # or a file is the only input
-        # and we will try to determine the top folder from the extension
-        if fo ∈ LOCFLDRS
-            return fo
-        else
-            fo = "/" * splitext(creq)[2][2:end] *"/"
-            fo = replace(fo, IMGEXT => "img")
-            if fo ∈ LOCFLDRS
-                return fo
-            else
-                return "/html/"
-            end
-        end
+    if fofirst ∈ LOCFLDRS
+        return fofirst
     end
-    if fo ∈ LOCFLDRS
-        return fo
-    else
-        # Determine top folder from extension.
-        fo = "/" * splitext(creq)[2][2:end] *"/"
-        fo = replace(fo, IMGEXT => "img")
-        if fo ∈ LOCFLDRS
-            return fo
-        else
-            return "/html/"
-        end
-    end
+    return "/html/"
 end
 
 "
 public request - >  (top folder, modified request)
-Picks a path from within LOCFLDRS, based on extensions if folder is missing.
+Picks a path ∈ LOCFLDRS, based on
+    1) file extension (/img/fig.svg -> /svg/fig.svg)
+    2) default  (/X.abc -> /html/X.abc)
 "
 function _topfolder_modreq(pubreq::String)
     censoredreq = pubreq |> _censoredrequest
-    topfolder = _upmostfolder(censoredreq)
+    topfolder = _locfolder(censoredreq)
     if startswith(censoredreq, topfolder)
-        modreq = censoredreq
-    else
-        # the top folder was inferred from extension,
-        # or just a folder was specified, without an ending '/'
-        if topfolder[1:end-1] == censoredreq
-            modreq = topfolder
-        else
-            modreq = topfolder * censoredreq |> _doubleslash2slash
-        end
+        # Make checks against /html/html/doc.html?
+        return topfolder, censoredreq
     end
-    if modreq[end] == '/'
-        modreq *= "index.html"
+    # top folder was not taken directly from the request.
+    if topfolder != "/html/" && occursin("/html/", censoredreq)
+        #= Document link:           "./pic.jpg"
+        -> request:                 "/html/pic.jpg"
+        -> topfolder, censoredreq:  "/img/", "/html/pic.jpg"
+        -> topfolder, modreq:       "/img/", "/img/pic.jpg"
+        =#
+        return topfolder, replace(censoredreq, "/html/" => topfolder)
     end
-    topfolder, modreq
+    #= Document link:           "./holiday/pic.jpg"
+    -> request:                 "/html/holidaypic.jpg"
+    -> topfolder, censoredreq:  "/img/", "/html/holidaypic.jpg"
+    -> topfolder, modreq:       "/img/", "/img/pic.jpg"
+    =#
+    return topfolder, topfolder * censoredreq |> _doubleslash2slash
 end
 
 "Full path to requested file"
@@ -250,7 +233,9 @@ function _handle_file(pubreq::WebSockets.Request, resp::WebSockets.Response)
     WebSockets.setheader(resp, WebSockets.Header("Content-Length",  string(length(body))))
     WebSockets.setheader(resp, WebSockets.Header("Last-Modified", tstamp))
     resp.status = status
-    @debug "_handled file"
+    if status != 200
+        @info "Failure to handle $(pubreq.target)"
+    end
     resp
 end
 handle_file(pubreq::WebSockets.Request) = _handle_file(pubreq, WebSockets.Response())
