@@ -39,10 +39,22 @@ function attach (opt) {
   }
 }
 
-//export module.exports = function (opt) {
-export function position(opt) {
+
+function position(opt) {
   return attach(opt).position;
 };
+
+position.emitter = function (opt) {
+  return attach(opt);
+};
+
+export {position};
+
+
+//export module.exports = function (opt) {
+//export function position(opt) {
+//  return attach(opt).position;
+//};
 
 //module.exports.emitter = function (opt) {
 //export function (opt) {

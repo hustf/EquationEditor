@@ -1,5 +1,3 @@
-'use strict'
-
 //var parseUnit = require('parse-unit')
 
 import {parseUnit} from "/parse-unit/index.mjs";

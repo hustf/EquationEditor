@@ -1,2 +1,2 @@
 # EquationEditor
-Mock-up of editor support
+Mock-up of local browser-based equation editor for Julia

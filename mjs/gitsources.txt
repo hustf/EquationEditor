@@ -19,3 +19,6 @@ git clone https://github.com/dy/pan-zoom.git
 		git clone https://github.com/myrne/performance-now
   git clone https://github.com/dy/has-passive-events
 	  git clone https://github.com/ForbesLindesay/is-browser
+
+Small REGL
+git clone https://github.com/regl-project/regl

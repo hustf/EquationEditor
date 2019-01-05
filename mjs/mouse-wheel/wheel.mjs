@@ -1,5 +1,3 @@
-'use strict'
-
 //var toPX = require('to-px')
 import {toPX} from "/to-px/index.mjs";
 //module.exports = mouseWheelListen

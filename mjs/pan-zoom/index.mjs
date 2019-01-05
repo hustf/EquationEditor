@@ -3,24 +3,21 @@
  *
  * Events for pan and zoom
  */
-'use strict'
-
 
 //var Impetus = require('impetus')
-import {Impetus} from "/impetus/impetus.mjs";
+import Impetus from "/impetus/impetus.mjs";
 //var wheel = require('mouse-wheel')
 import {mouseWheelListen as wheel} from "/mouse-wheel/wheel.mjs";
 //var touchPinch = require('touch-pinch')
 import {touchPinch} from "/touch-pinch/index.mjs";
 //var position = require('touch-position')
 import {position} from "/touch-position/index.mjs";
-// DEVELOPER TOOLS
 //var raf = require('raf')
+import {raf} from "/raf/index.mjs";
+
 //var hasPassive = require('has-passive-events')
 
 //module.exports = panZoom
-
-
 export function panZoom (target, cb) {
 	if (target instanceof Function) {
 		cb = target
@@ -39,7 +36,7 @@ export function panZoom (target, cb) {
 	var initX = 0, initY = 0, init = true
 	var initFn = function (e) { init = true }
 	target.addEventListener('mousedown', initFn)
-	target.addEventListener('touchstart', initFn, hasPassive ? { passive: true } : false)
+	//target.addEventListener('touchstart', initFn, hasPassive ? { passive: true } : false)
 
 	var lastY = 0, lastX = 0
 	impetus = new Impetus({
@@ -147,7 +144,7 @@ export function panZoom (target, cb) {
 				schedule(arg)
 			}
 		})
-	}
+}
 
 	return function unpanzoom () {
 		touch.dispose()

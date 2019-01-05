@@ -141,10 +141,10 @@ and is lowercase
 """
 function _locfolder(creq::String)
     fofirst ="/" * get(split(creq, "/"), 2, "") *"/"
-    fosecond = get(split(creq, "/"), 3, "")
-    fileextension =  splitext(creq)[2][2:end]
+    flast = split(creq, "/")[end]
+    fileextension =  splitext(flast)[end][2:end]
     fofilextension = "/" * replace(fileextension, IMGEXT => "img") * "/"
-    if fofilextension ∈ LOCFLDRS
+    if flast != "index.html" && fofilextension ∈ LOCFLDRS
         return fofilextension
     end
     if fofirst ∈ LOCFLDRS

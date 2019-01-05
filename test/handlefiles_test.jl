@@ -14,11 +14,12 @@ reqstr = reqstr |> EE._nokeywords
 reqstr = reqstr |> EE._maybeindexhtml
 reqstr = reqstr |> EE._doubleslash2slash
 @test reqstr |> EE._startslash == "/svg/mickey mouse.svg/index.html"
-
 @test EE._censoredrequest("/svg/../others/") == "/svg/others/index.html"
 @test EE._censoredrequest("/svg/Mickey%20%mouse.svg/") == "/index.html"
 @test EE._censoredrequest("/html/touch-position/index.mjs") == "/html/touch-position/index.mjs"
 @test EE._censoredrequest("mehekje.dot.no") == "/mehekje.dot.no"
+@test EE._censoredrequest("/svg/") == "/svg/index.html"
+
 
 @test EE._longfilename("XX") == EE.FOLDERHOME * "XX"
 @test EE._longfilename("/svg/Julia.svg") |> EE._pubfilename == "/svg/Julia.svg"
@@ -27,6 +28,10 @@ reqstr = reqstr |> EE._doubleslash2slash
 @test EE._locfolder("/jsmodule.mjs") == "/mjs/"
 @test EE._locfolder("/gl-vec2/copy.mjs") == "/mjs/"
 @test EE._locfolder("/html/touch-position/index.mjs") == "/mjs/"
+
+@test EE._locfolder("/svg/index.html") == "/svg/"
+
+
 @test EE._topfolder_modreq("/Mickey.jpg") == ("/img/", "/img/mickey.jpg")
 @test EE._topfolder_modreq("/img/Mickey.jpg") == ("/img/", "/img/mickey.jpg")
 @test EE._topfolder_modreq("/html/touch-position/index.mjs") == ("/mjs/", "/mjs/touch-position/index.mjs")
@@ -34,7 +39,7 @@ reqstr = reqstr |> EE._doubleslash2slash
 @test EE._topfolder_modreq("/sub/") == ("/html/", "/html/sub/index.html")
 @test EE._topfolder_modreq("/html/index.html") == ("/html/", "/html/index.html")
 @test EE._topfolder_modreq("/html/html/index.html") == ("/html/", "/html/html/index.html")
-
+EE._topfolder_modreq("/svg/")
 
 pubstr = "/html/favicon.ico"
 tf = EE.FOLDERHOME * pubstr

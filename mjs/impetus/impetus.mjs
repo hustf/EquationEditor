@@ -8,9 +8,7 @@ const bounceAcceleration = 0.11;
 // @see https://github.com/metafizzy/flickity/issues/457#issuecomment-254501356
 window.addEventListener('touchmove', function() {});
 
-export {Impetus}
-
-class Impetus {
+export default class Impetus {
     constructor({
         source: sourceEl = document,
         update: updateCallback,
