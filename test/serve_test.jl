@@ -8,18 +8,15 @@ const EE = EquationEditor
 const server, task = serveEE()
 @test !isready(server.out)
 @test !istaskdone(task)
+
+#= For debugging
 server
 task
-
 put!(server.in, "die!")
-
-task
-
-server.out
-
-take!(server.out)
-
-
-logr.Previous
-take!(server.out)
-take!(server.out)
+if isready(server.out)
+    println(String(take!(server.out)))
+end
+if isready(server.out)
+    println(String(take!(server.out)))
+end
+=#

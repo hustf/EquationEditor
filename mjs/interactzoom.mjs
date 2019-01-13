@@ -1,3 +1,4 @@
+// For exploration only.
 import {panZoom as panzoom} from "/pan-zoom/index.mjs";
 
 console.log("We are ready here");

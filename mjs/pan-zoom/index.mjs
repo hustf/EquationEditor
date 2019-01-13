@@ -5,15 +5,15 @@
  */
 
 //var Impetus = require('impetus')
-import Impetus from "/impetus/impetus.mjs";
+import Impetus from "/impetus/impetus.mjs"
 //var wheel = require('mouse-wheel')
-import {mouseWheelListen as wheel} from "/mouse-wheel/wheel.mjs";
+import {mouseWheelListen as wheel} from "/mouse-wheel/wheel.mjs"
 //var touchPinch = require('touch-pinch')
-import {touchPinch} from "/touch-pinch/index.mjs";
+import {touchPinch} from "/touch-pinch/index.mjs"
 //var position = require('touch-position')
-import {position} from "/touch-position/index.mjs";
+import {position} from "/touch-position/index.mjs"
 //var raf = require('raf')
-import {raf} from "/raf/index.mjs";
+import {raf} from "/raf/index.mjs"
 
 //var hasPassive = require('has-passive-events')
 

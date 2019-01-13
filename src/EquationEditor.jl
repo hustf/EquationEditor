@@ -8,6 +8,7 @@ import WebSockets.Dates
 using Latexify
 using Revise
 include("serve.jl")
+include("functions_open_browsers.jl")
 
 
 end #module
