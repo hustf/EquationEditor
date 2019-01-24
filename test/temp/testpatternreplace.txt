@@ -1,0 +1,11 @@
+En To "tre" fire Fem seks
+En Tooooia "tre" fire Fem seks
+En To "tre" fire Fem seks
+-- "tre" var her Fem seks
+En To "tre" fire Fem seks
+En To "tre" fire Fem seks
+En To "tre" fire Fem seks
+
+Find: En \w+ ("\w+") \w+
+Replace: -- $1 var her
+->-- "tre" var her Fem seks

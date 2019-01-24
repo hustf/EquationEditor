@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.2"
+     baseProfile="basic"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:ev="http://www.w3.org/2001/xml-events"
+     width="297mm" height="420mm" viewBox="0 0 297 420">
+<desc>Template for equation editor</desc>
+    <defs>
+          <!-- external css is not supported from css. -->
+    </defs>
+  <rect width="10%" height="100%" class ="moveoverrequestupdate" />
+  <rect width="10%" height="100%" class ="moveoverrequestupdate" x="267.3"/>
+
+    <!--  script modules not yet supported by xhtml. Place scripts external-->
+</svg>

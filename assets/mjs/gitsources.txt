@@ -1,0 +1,30 @@
+Dependencies were not collected using Node.js (as was intended).
+The actual .js files are pulled from repositories, and renamed
+to the .jsm extension for clarity. The browser will compile and cache compiled files.
+All dependencies are MIT licensed:
+git clone https://github.com/dy/pan-zoom.git
+	git clone https://github.com/chrisbateman/impetus.git
+	git clone https://github.com/mikolalysenko/mouse-wheel.git
+		git clone https://github.com/mikolalysenko/to-px
+			git clone https://github.com/mattdesl/parse-unit
+	git clone https://github.com/Jam3/touch-pinch.git
+		git clone https://github.com/mattdesl/mouse-event-offset.git
+		git clone https://github.com/Gozala/events.git
+		git clone https://github.com/mattdesl/dprop.git
+		git clone https://github.com/stackgl/gl-vec2.git
+	git clone https://github.com/mattdesl/touch-position.git
+		(events: Already included)
+		(mouse-event-offset: Already included)
+	git clone https://github.com/chrisdickinson/raf
+		git clone https://github.com/myrne/performance-now
+  git clone https://github.com/dy/has-passive-events
+	  git clone https://github.com/ForbesLindesay/is-browser
+
+Small REGL
+git clone https://github.com/regl-project/regl
+
+
+https://github.com/sparksuite/simplemde-markdown-editor.git
+  https://github.com/codemirror/CodeMirror.git
+	https://github.com/markedjs/marked.git
+Consider upgrade to https://github.com/Inscryb/inscryb-markdown-editor, which has better documentation.

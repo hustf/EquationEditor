@@ -6,7 +6,7 @@ Generates index.html on request.
 # defines MIMETYPES
 include("mimetypes.jl")
 "Root of LOCFLDRS"
-const FOLDERHOME = replace(joinpath(@__DIR__, "..") |> realpath, "\\" => "/")
+const FOLDERHOME = replace(joinpath(@__DIR__, "..", "assets") |> realpath, "\\" => "/")
 const RGX_FOLDERHOME = Regex("^"* FOLDERHOME)
 
 "Contains the local path to folders to expose. Subfolders will also be exposed."

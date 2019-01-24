@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Interact</title>
+	<link rel="stylesheet" type="text/css" href="./browncyan.css">
+	<!-- for zooming and panning-->
+		<link rel="modulepreload" href="./lib.mjs">
+		<link rel="modulepreload" href="./main.mjs">
+		<link rel="modulepreload" href="./events/events.mjs">
+		<link rel="modulepreload" href="./gl-vec2/add.mjs">
+		<link rel="modulepreload" href="./gl-vec2/ceil.mjs">
+		<link rel="modulepreload" href="./gl-vec2/clone.mjs">
+		<link rel="modulepreload" href="./gl-vec2/copy.mjs">
+		<link rel="modulepreload" href="./gl-vec2/create.mjs">
+		<link rel="modulepreload" href="./gl-vec2/cross.mjs">
+		<link rel="modulepreload" href="./gl-vec2/dist.mjs">
+		<link rel="modulepreload" href="./gl-vec2/distance.mjs">
+		<link rel="modulepreload" href="./gl-vec2/div.mjs">
+		<link rel="modulepreload" href="./gl-vec2/divide.mjs">
+		<link rel="modulepreload" href="./gl-vec2/dot.mjs">
+		<link rel="modulepreload" href="./gl-vec2/epsilon.mjs">
+		<link rel="modulepreload" href="./gl-vec2/equals.mjs">
+		<link rel="modulepreload" href="./gl-vec2/exactEquals.mjs">
+		<link rel="modulepreload" href="./gl-vec2/floor.mjs">
+		<link rel="modulepreload" href="./gl-vec2/forEach.mjs">
+		<link rel="modulepreload" href="./gl-vec2/fromValues.mjs">
+		<link rel="modulepreload" href="./gl-vec2/index.mjs">
+		<link rel="modulepreload" href="./gl-vec2/inverse.mjs">
+		<link rel="modulepreload" href="./gl-vec2/len.mjs">
+		<link rel="modulepreload" href="./gl-vec2/length.mjs">
+		<link rel="modulepreload" href="./gl-vec2/lerp.mjs">
+		<link rel="modulepreload" href="./gl-vec2/limit.mjs">
+		<link rel="modulepreload" href="./gl-vec2/max.mjs">
+		<link rel="modulepreload" href="./gl-vec2/min.mjs">
+		<link rel="modulepreload" href="./gl-vec2/mul.mjs">
+		<link rel="modulepreload" href="./gl-vec2/multiply.mjs">
+		<link rel="modulepreload" href="./gl-vec2/negate.mjs">
+		<link rel="modulepreload" href="./gl-vec2/normalize.mjs">
+		<link rel="modulepreload" href="./gl-vec2/random.mjs">
+		<link rel="modulepreload" href="./gl-vec2/rotate.mjs">
+		<link rel="modulepreload" href="./gl-vec2/round.mjs">
+		<link rel="modulepreload" href="./gl-vec2/scale.mjs">
+		<link rel="modulepreload" href="./gl-vec2/scaleAndAdd.mjs">
+		<link rel="modulepreload" href="./gl-vec2/set.mjs">
+		<link rel="modulepreload" href="./gl-vec2/sqrDist.mjs">
+		<link rel="modulepreload" href="./gl-vec2/sqrLen.mjs">
+		<link rel="modulepreload" href="./gl-vec2/squaredDistance.mjs">
+		<link rel="modulepreload" href="./gl-vec2/squaredLength.mjs">
+		<link rel="modulepreload" href="./gl-vec2/sub.mjs">
+		<link rel="modulepreload" href="./gl-vec2/subtract.mjs">
+		<link rel="modulepreload" href="./gl-vec2/transformMat2.mjs">
+		<link rel="modulepreload" href="./gl-vec2/transformMat2d.mjs">
+		<link rel="modulepreload" href="./gl-vec2/transformMat3.mjs">
+		<link rel="modulepreload" href="./gl-vec2/transformMat4.mjs">
+		<link rel="modulepreload" href="./impetus/impetus.mjs">
+		<link rel="modulepreload" href="./mouse-event-offset/index.mjs">
+		<link rel="modulepreload" href="./mouse-wheel/wheel.mjs">
+		<link rel="modulepreload" href="./to-px/index.mjs">
+		<link rel="modulepreload" href="./parse-unit/index.mjs">
+		<link rel="modulepreload" href="./pan-zoom/index.mjs">
+		<link rel="modulepreload" href="./touch-pinch/index.mjs">
+		<link rel="modulepreload" href="./touch-position/index.mjs">
+	<!-- temporary concept-->
+	<link rel="modulepreload" href="./insertsvg.mjs">
+	<!-- for markdown editor-->
+
+  </head>
+  <body>
+
+<section id="focal">
+	<div class="parent" >
+	     <div class="panzoom svgcontainer" >
+			 </div>
+	  </div>
+
+	  <script nomodule>alert ("Your browser: does not support ES6 modules")</script>
+	  <script type = "module" src = "/insertsvg.mjs"></script>
+	  <script type = "module">
+		  import {insertSvg} from "/insertsvg.mjs"
+		  let svg = insertSvg(document.querySelector(".svgcontainer"), "svg",  {baseProfile:"basic",
+			  viewBox:"0 0 297 420", version:"1.2" ,  border:"true"})
+		  let a3 = insertSvg(svg, "rect",  {baseProfile:"basic", width:"297mm", height:"420mm",
+			  viewBox:"0 0 297 420", version:"1.2" , class:"A3"})
+		  insertSvg(svg, "circle", {class:"co5"})
+	  </script>
+</section>
+
+
+
+  <footer class="buttons">
+		<button class="switch">Switch pointer events</button>
+		<button class='zoom-out'>Zoom Out</button>
+		<input type="range" class="zoom-range" step="0.05" min="0.3" max="6">
+		<button class='zoom-in'>Zoom In</button>
+		<button class="reset">Reset</button>
+		<button class="previous">Previous</button>
+		<input type ="text" class = "svgname" value="...">
+		<button class="next">Next</button>
+  </footer>
+
+	  <script nomodule>alert ("Your browser does not support ES6 modules")</script>
+      <script type = "module" src = "/EE_panzoom.mjs"></script>
+</body></html>

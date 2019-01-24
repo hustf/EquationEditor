@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Markdown editor</title>
+  <link rel="modulepreload" href="/simplemde/simplemde.mjs">
+<!--		<link rel="stylesheet" type="text/css" href="/normalize.css" media="screen">-->
+<!--				<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">-->
+<!--				<link rel="stylesheet" type="text/css" href="/stylesheet.css" media="screen">-->
+<!--				<link rel="stylesheet" type="text/css" href="/github-light.css" media="screen">-->
+<!--				<link rel="canonical" href="https://simplemde.com/" />-->
+		<style>
+			.editor-preview h1,
+			.editor-preview h2,
+			.editor-preview h3,
+			.editor-preview h4,
+			.editor-preview h5{
+				margin-bottom:10px;
+			}
+			.editor-preview h1{
+				border-bottom:1px solid #ddd;
+			}
+
+			.editor-preview h1{
+				border-bottom:1px solid #eee;
+			}
+			</style>
+  </head>
+  <body>
+		<textarea id="demo1"># Intro
+Press ctrl-p to switch preview /edit. 
+Be sure to check out **bold** and *italic* styling, or even [links](https://google.com). 
+You can type the Markdown syntax, use the toolbar, or use shortcuts like `cmd-b` or `ctrl-b`.
+
+## Image
+![Yes](/example.jpg)
+
+## List
+Unordered lists can be started using the toolbar or by typing `* `, `- `, or `+ `. Ordered lists can be started by typing `1. `.
+
+#### Unordered
+* Lists are a piece of cake
+* They even auto continue as you type
+* A double enter will end them
+* Tabs and shift-tabs work too
+
+#### Ordered
+1. Numbered lists...
+2. ...work too!
+</textarea>
+	<!-- Based on "https://github.com/sparksuite/simplemde-markdown-editor"-->
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"> -->
+		<link rel="stylesheet" href="/simplemde.css">
+
+<script type = "module">
+	import {SimpleMDE} from "/simplemde/simplemde.mjs"
+	new SimpleMDE({
+		element: document.getElementById("demo1"),
+		spellChecker: false
+	});
+	</script>
+<script nomodule>alert ("Your browser does not support ES6 modules")</script>
+</body></html>
