@@ -66,30 +66,11 @@
 	<link rel="modulepreload" href="./insertsvg.mjs">
 	<!-- for markdown editor-->
 
-  </head>
-  <body>
-
-<section id="focal">
-	<div class="parent" >
-	     <div class="panzoom svgcontainer" >
-			 </div>
-	  </div>
-
-	  <script nomodule>alert ("Your browser: does not support ES6 modules")</script>
-	  <script type = "module" src = "/insertsvg.mjs"></script>
-	  <script type = "module">
-		  import {insertSvg} from "/insertsvg.mjs"
-		  let svg = insertSvg(document.querySelector(".svgcontainer"), "svg",  {baseProfile:"basic",
-			  viewBox:"0 0 297 420", version:"1.2" ,  border:"true"})
-		  let a3 = insertSvg(svg, "rect",  {baseProfile:"basic", width:"297mm", height:"420mm",
-			  viewBox:"0 0 297 420", version:"1.2" , class:"A3"})
-		  insertSvg(svg, "circle", {class:"co5"})
-	  </script>
-</section>
-
-
-
-  <footer class="buttons">
+</head>
+<body>
+	<section class="panzoom svgcontainer" > 
+	</section>
+	<footer class="buttons">
 		<button class="switch">Switch pointer events</button>
 		<button class='zoom-out'>Zoom Out</button>
 		<input type="range" class="zoom-range" step="0.05" min="0.3" max="6">
@@ -98,8 +79,47 @@
 		<button class="previous">Previous</button>
 		<input type ="text" class = "svgname" value="...">
 		<button class="next">Next</button>
-  </footer>
+  	</footer>
+</body>
+<script nomodule>alert ("Your browser: does not support ES6 modules")</script>
+<script type = "module">
+	import {insertSvgElem} from "/insertsvg.mjs"
+	// We rely on 'section' height 440 mm as defined in css. Add top and bottom margins in total 20 mm. 
+	// The effect should be that 1 svg user unit = 1 mm. viewBox can't be given in css.
+	let svga3 = insertSvgElem(document.querySelector(".svgcontainer"), "svg",  {baseProfile:"basic",
+		version:"2.0" ,  border:"true", viewBox:"0, 0, 297, 420", class:"a3"})
+	svga3.style.fontSize = 3.52777; // This is 10 pt in paper fonts. Unitless lengths can't be given through css.
+	let defs = svga3.addChild({tag:"defs"})
+	def_mm_grid()
+	def_cm_grid()
+	let paper = svga3.addChild({ tag:"g", class:"paper"})
+	// to override css styles, put the attributes inside a "style" attribute:
+	paper.addChild({ tag:"rect", class:"paper", style:"fill:url(#cmgrid)"})
 
-	  <script nomodule>alert ("Your browser does not support ES6 modules")</script>
-      <script type = "module" src = "/EE_panzoom.mjs"></script>
-</body></html>
+	paper.addChild({tag:"circle",  class:"co5", cx:"0", cy:"420", r:"210"})
+	paper.addChild({tag:"text",   x:"0", y:"420", class:"co5", textContent:"co5 circle"})
+	paper.addChild({tag:"rect", x:"25", y:"27.52", height:"2.48", width:"5"})
+	let te = paper.addChild({tag:"text",  x:"35", y:"30", textContent:"Arial 10 pt, x = 35mm, y = 30mm"})
+	console.log(te.parent)
+
+
+function def_mm_grid(){
+	let mmGrid = defs.addChild({tag:"pattern", id:"mmgrid", width:"1", height:"1", patternUnits:"userSpaceOnUse"})
+	// to use attributes including a '-', use setAttribute directly like this:
+	//mmGrid.addChild({tag:"path", d:"M 1 0 L 0 0 0 1", fill:"none", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.01")
+	mmGrid.addChild({tag:"rect", width:1, height:1, fill:"var(--co6)", stroke:"var(--co4)"}).setAttribute("stroke-width", "0.03")
+}
+
+function def_dm_grid(){
+	let dmGrid = defs.addChild({tag:"pattern", id:"dmgrid", width:"100", height:"100", patternUnits:"userSpaceOnUse"})
+    dmGrid.addChild({tag:"path", d:"M 100 0 L 0 0 0 100", fill:"none", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.1")
+}
+function def_cm_grid(){
+	let cmGrid = defs.addChild({tag:"pattern", id:"cmgrid", width:"10", height:"10", patternUnits:"userSpaceOnUse"})
+    cmGrid.addChild({tag:"rect", width:10, height:10, style:"fill:url(#mmgrid)", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.1")
+}
+
+
+</script>
+<script type = "module" src = "/EE_panzoom.mjs"></script>
+</html>

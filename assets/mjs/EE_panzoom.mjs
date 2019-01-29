@@ -1,5 +1,4 @@
 import {panZoom as panzoom} from "/pan-zoom/index.mjs"
-console.log("We are ready here");
 
 // the zoomselector points the object we want to zoom and pan.
 // there has been issues with event propagation switching. The fix
@@ -28,7 +27,7 @@ const minscale = .5
 
 let ctm = [1,0,0,0,0,0]
 
-const do_pan_zoom = function(e){
+let do_pan_zoom = function(e){
 	// when cursor drag up, e.dy is negative, typical e.dy = -1
 	// when cursor drag right, e.dx is positive, typical e.dx = 1
 	let wu = umax - umin
@@ -74,13 +73,14 @@ const do_pan_zoom = function(e){
 		let ty = hy * (0.5 - ry)
 		let tx2 = -wx * (0.5 - rx)
 		let ty2 = -hy * (0.5 - ry)
-    // This is just for panning
-    tx2+= 0.5 * (umin + umax) - wx /2
+
+		// This is just for panning
+		tx2+= 0.5 * (umin + umax) - wx /2
 		ty2+= 0.5 * (vmin + vmax) - hy /2
 
 		let ctm = [s, 0,
-							0, s,
-							tx * s + tx2, ty * s + ty2]
+					0, s,
+					tx * s + tx2, ty * s + ty2]
 		// the style object dictionary wants this as a string
 		e.target.style["transform"] = "matrix(" + ctm.join(',') + ")"
 }
@@ -89,5 +89,5 @@ let clamp = function (val, min, max) {
 	(Math.min(Math.max(val, min), max) != val) && console.log("Clamping")
   return Math.min(Math.max(val, min), max)
 }
-
+// provide the object to zoom, and the callback function for doing it.
 let ff = panzoom(panzoomelement, do_pan_zoom)
