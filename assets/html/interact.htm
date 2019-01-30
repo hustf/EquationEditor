@@ -64,8 +64,14 @@
 		<link rel="modulepreload" href="./touch-position/index.mjs">
 	<!-- temporary concept-->
 	<link rel="modulepreload" href="./insertsvg.mjs">
+	<link rel="modulepreload" href="./insertxhtml.mjs">
 	<!-- for markdown editor-->
-
+	<link rel="modulepreload" href="/simplemde/simplemde.mjs">
+	<!--		<link rel="stylesheet" type="text/css" href="/normalize.css" media="screen">-->
+	<!--				<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">-->
+	<!--				<link rel="stylesheet" type="text/css" href="/stylesheet.css" media="screen">-->
+	<!--				<link rel="stylesheet" type="text/css" href="/github-light.css" media="screen">-->
+	<!--				<link rel="canonical" href="https://simplemde.com/" />-->
 </head>
 <body>
 	<section class="panzoom svgcontainer" > 
@@ -84,23 +90,32 @@
 <script nomodule>alert ("Your browser: does not support ES6 modules")</script>
 <script type = "module">
 	import {insertSvgElem} from "/insertsvg.mjs"
+	import {insertHtmlElemFromText} from "/insertxhtml.mjs"
+
 	// We rely on 'section' height 440 mm as defined in css. Add top and bottom margins in total 20 mm. 
 	// The effect should be that 1 svg user unit = 1 mm. viewBox can't be given in css.
 	let svga3 = insertSvgElem(document.querySelector(".svgcontainer"), "svg",  {baseProfile:"basic",
 		version:"2.0" ,  border:"true", viewBox:"0, 0, 297, 420", class:"a3"})
 	svga3.style.fontSize = 3.52777; // This is 10 pt in paper fonts. Unitless lengths can't be given through css.
 	let defs = svga3.addChild({tag:"defs"})
+	let paper = svga3.addChild({ tag:"g", class:"paper"})
 	def_mm_grid()
 	def_cm_grid()
-	let paper = svga3.addChild({ tag:"g", class:"paper"})
 	// to override css styles, put the attributes inside a "style" attribute:
 	paper.addChild({ tag:"rect", class:"paper", style:"fill:url(#cmgrid)"})
 
-	paper.addChild({tag:"circle",  class:"co5", cx:"0", cy:"420", r:"210"})
-	paper.addChild({tag:"text",   x:"0", y:"420", class:"co5", textContent:"co5 circle"})
-	paper.addChild({tag:"rect", x:"25", y:"27.52", height:"2.48", width:"5"})
-	let te = paper.addChild({tag:"text",  x:"35", y:"30", textContent:"Arial 10 pt, x = 35mm, y = 30mm"})
-	console.log(te.parent)
+	paper.addChild({tag:"circle",  class:"co5", cx:0, cy:420, r:210})
+	paper.addChild({tag:"text",   x:0, y:420, class:"co5", textContent:"co5 circle"})
+	paper.addChild({tag:"rect", x:25, y:27.52, height:2.48, width:5})
+	let te = paper.addChild({tag:"text",  x:35, y:30, textContent:"Arial 10 pt, x = 35mm, y = 30mm"})
+				   
+	let fo = paper.addChild({tag:"foreignObject", width:100, height:50, x:25, y:50}) // requiredExtensions:"http://example.com/SVGExtensions/EmbeddedXHTML" is false in Chrome
+	let htmlstring = `<body xmlns="http://www.w3.org/1999/xhtml"><textarea spellcheck="false">Write here</textarea></body>`	
+	let bo =  insertHtmlElemFromText(fo, htmlstring)
+	//bo.style.fontSize = 3.52777;
+	//let ta = fo.addChild({tag:"textarea", x:25, y:55, width:200, height:200, textContent:"Hei hei", id:"feer", name:"feer", rows: "1", cols:"25"})
+
+//fr.setAttribute("stroke-width", "0.03")
 
 
 function def_mm_grid(){
@@ -110,10 +125,6 @@ function def_mm_grid(){
 	mmGrid.addChild({tag:"rect", width:1, height:1, fill:"var(--co6)", stroke:"var(--co4)"}).setAttribute("stroke-width", "0.03")
 }
 
-function def_dm_grid(){
-	let dmGrid = defs.addChild({tag:"pattern", id:"dmgrid", width:"100", height:"100", patternUnits:"userSpaceOnUse"})
-    dmGrid.addChild({tag:"path", d:"M 100 0 L 0 0 0 100", fill:"none", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.1")
-}
 function def_cm_grid(){
 	let cmGrid = defs.addChild({tag:"pattern", id:"cmgrid", width:"10", height:"10", patternUnits:"userSpaceOnUse"})
     cmGrid.addChild({tag:"rect", width:10, height:10, style:"fill:url(#mmgrid)", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.1")

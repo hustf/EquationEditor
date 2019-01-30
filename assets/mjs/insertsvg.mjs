@@ -31,13 +31,14 @@ export function insertSvgElem(parent, tag, attributes){
     return unappended // unappended is now appended
 }
 
-// If the parent is of class "paper", wrap the new element in a group.
+// The child is wrapped in a group with some exceptions
 function _addChild(parent,  tag, attributes){
     let needGroup = _needNewGroup(parent, tag)
     // This lets the new element inherit style from its containing element,
     // which determines its bounding box.
     let ne = insertSvgElem(parent, tag, attributes)
-    if (needGroup){
+    if (ne === null) throw "ouch";
+    if (needGroup && Reflect.has(ne, "getBBox")) {
         let bbox = ne.getBBox()
         ne.remove() // unlink ne from parent.
         let [ne_attributes, g_attributes, g_x, g_y] = _attributesForGroup(tag, attributes, bbox)
@@ -75,7 +76,7 @@ function _createElementNSattributes(tag, attributes) {
 
 
 function _shouldHaveAddChild(tag, attributes){
-    if (["svg", "g", "a", "defs", "switch", "pattern"].includes(tag)) return true
+    if (["svg", "g", "a", "defs", "switch", "pattern", "foreignobject"].includes(tag.toLowerCase())) return true
     return false
 }
 
@@ -85,7 +86,7 @@ function* _idMaker() {
       yield index++
   }
 function _needNewGroup(parent, tag){
-   if (["defs",  "symbol", "use", "g"].includes(tag)) return false
+   if (["defs",  "symbol", "use", "g"].includes(tag.toLowerCase())) return false
    if (["defs", "symbol", "use", "pattern"].includes(parent.tagName)) return false
    if (parent.hasOwnProperty("class")) {
        let cl = attributes.class.toLowerCase().split(" ")
