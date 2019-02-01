@@ -19,124 +19,68 @@
 5 pt = 1.7638850 mm
 */
 body {
-     font-family: Arial, Helvetica, sans-serif;
      margin:0 0 0 0;
-     background:var(--co1);}
- section {display:block;
-    height:440mm;
-    width:317mm}
+     background:var(--co1);
+   }
+
 svg.a3 {
-        margin:10mm;
-        padding: 0mm;
-        border: 0mm;       
-        width:297mm;
-        height:420mm; /* border comes in addition to height.*/
-        background:var(--co2);
-        fill:var(--co1);
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
+   margin:10mm;
+   border:none;
+   padding:0;
+   }
 
-/* elements are temporarily inserted without a group g, then are wrapped in group. 
-   Hence, do not inherit properties that affect the bounding box from g.*/
 g.paper {                    
-    width:100%; height:100%; /* paper dimensions determined by parent width and height*/
+    margin:0mm;
     }
 
-rect.paper{width:100%; height:100%; /* paper dimensions determined by parent class
-        The paper rectangle could have a grid style fill */
+rect.paper{width:100%; height:100%; /* paper dimensions determined by parent class*/
     fill-opacity:1.0;
-       /* fill in svg corresponds to color in html css. */
-    border: 0pt;
-}
- header, footer {padding: 0.5em 0.5em 0.8em 0.5em;
+   }
+header, footer {padding: 0.5em 0.5em 0.8em 0.5em;
     margin:0 -0.5em 0em -0.5em;
     width:100%;
     clear:both;
     background:var(--co2);
-    color:var(--co7)
- }
- footer{position:fixed; 
+    color:var(--co7);
+   }
+footer{position:fixed; 
     bottom:0;
-    left:0;}
+    left:0;
+   }
 
- button { border-radius: 0.3em; 
+button { border-radius: 0.3em; 
     background:var(--co3);
     border-color:var(--co4);
     color:var(--co5)}
-    .zoom-out {border-radius: 0.67em 0 0 0.67em}
-    .zoom-in {border-radius: 0 0.67em 0.67em 0}
-    .previous {border-radius: 0.67em 0 0 0.67em}
-    .next {border-radius: 0 0.67em 0.67em 0}
- input { vertical-align: bottom;}
- input[type="text"] {color:var(--co9); text-align:center; background-color:var(--co5);}
- div {overflow: hidden; position: relative; border: solid}
- object { pointer-events:none; border: solid}
-
-/* redefined for specific elements below*/
+button.zoom-out {border-radius: 0.67em 0 0 0.67em;}
+button.zoom-in {border-radius: 0 0.67em 0.67em 0;}
+button.previous {border-radius: 0.67em 0 0 0.67em;}
+button.next {border-radius: 0 0.67em 0.67em 0;}
+input {vertical-align: bottom;}
+input[type="text"] {color:var(--co9); 
+                     text-align:center; 
+                     background-color:var(--co5);}
 text {
+    font-family: Calibri, Helvetica, sans-serif;
     line-height: 1.0;
     pointer-events: all;
     fill:black;
     border:0;
-}
- text:hover {stroke-width:0.05em;stroke:var(--co6);visibility:visible}
- circle {stroke:var(--co2);
+   }
+text:hover {stroke-width:0.05em;stroke:var(--co9)}
+circle {stroke:var(--co2);
     fill:var(--co3);
     fill-opacity:0.6;
     stroke-width:.05em;
     stroke-opacity:0.6; 
     }
- circle.co1{stroke:var(--co1);fill:var(--co1)}
- circle.co2{stroke:var(--co1);fill:var(--co2)}
- circle.co3{stroke:var(--co2);fill:var(--co3)}
- circle.co4{stroke:var(--co3);fill:var(--co4)}
- circle.co5{stroke:var(--co4);fill:var(--co5)}
- circle.co6{stroke:var(--co5);fill:var(--co6)}
- circle.co7{stroke:var(--co6);fill:var(--co7)}
- circle.co8{stroke:var(--co7);fill:var(--co8)}
- circle.co9{stroke:var(--co8);fill:var(--co9)}
- polyline {fill:none;stroke:var(--co2);stroke-width:.05em;}
- polyline:hover {stroke-width:.4em;}
- polyline.co1{stroke:var(--co1)}
- polyline.co2{stroke:var(--co1)}
- polyline.co3{stroke:var(--co2)}
- polyline.co4{stroke:var(--co3)}
- polyline.co5{stroke:var(--co4)}
- polyline.co6{stroke:var(--co5)}
- polyline.co7{stroke:var(--co6)}
- polyline.co8{stroke:var(--co7)}
- polyline.co9{stroke:var(--co8)}
-
- 
- rect.co1{fill:var(--co1)}
- rect.co3{stroke:var(--co2);fill:var(--co3)}
- rect.co4{stroke:var(--co3);fill:var(--co4)}
- rect.co5{stroke:var(--co4);fill:var(--co5)}
- rect.co6{stroke:var(--co5);fill:var(--co6)}
- rect.co7{stroke:var(--co6);fill:var(--co7)}
- rect.co8{stroke:var(--co7);fill:var(--co8)}
- rect.co9{stroke:var(--co8);fill:var(--co9)}
 
 
- g {
-    cursor: move; /* fallback: no `url()` support or images disabled */
-    cursor: url(images/grab.cur); /* fallback: Internet Explorer */
-    cursor: -webkit-grab; /* Chrome 1-21, Safari 4+ */
-    cursor:    -moz-grab; /* Firefox 1.5-26 */
-    cursor:         grab; /* W3C standards syntax, should come least */
- }
- g:active {
-    cursor: url(images/grabbing.cur);
-    cursor: -webkit-grabbing;
-    cursor:    -moz-grabbing;
-    cursor:         grabbing;
-            }
-textarea {
+textarea:not(.mde) {
    -webkit-appearance: none;
    -moz-appearance:none;
    font-family: inherit; /* 1 */
+   font-family: Calibri, Helvetica, sans-serif;
    font-size: inherit; /* 1 */
    line-height: inherit; /* 1 */
    margin: inherit; /* 2 */
@@ -148,3 +92,15 @@ textarea {
    border:none;
    resize: none;
 }
+foreignObject {
+   all: revert;
+ }
+.co1{stroke:var(--co1);fill:var(--co1)}
+.co2{stroke:var(--co1);fill:var(--co2)}
+.co3{stroke:var(--co2);fill:var(--co3)}
+.co4{stroke:var(--co3);fill:var(--co4)}
+.co5{stroke:var(--co4);fill:var(--co5)}
+.co6{stroke:var(--co5);fill:var(--co6)}
+.co7{stroke:var(--co6);fill:var(--co7)}
+.co8{stroke:var(--co7);fill:var(--co8)}
+.co9{stroke:var(--co8);fill:var(--co9)}

@@ -4,7 +4,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Interact</title>
-	<link rel="stylesheet" type="text/css" href="./browncyan.css">
 	<!-- for zooming and panning-->
 		<link rel="modulepreload" href="./lib.mjs">
 		<link rel="modulepreload" href="./main.mjs">
@@ -62,11 +61,14 @@
 		<link rel="modulepreload" href="./pan-zoom/index.mjs">
 		<link rel="modulepreload" href="./touch-pinch/index.mjs">
 		<link rel="modulepreload" href="./touch-position/index.mjs">
-	<!-- temporary concept-->
+	<!-- svg conceptualization -->
 	<link rel="modulepreload" href="./insertsvg.mjs">
 	<link rel="modulepreload" href="./insertxhtml.mjs">
+	<link rel="stylesheet" type="text/css" href="./browncyan.css">
+
 	<!-- for markdown editor-->
 	<link rel="modulepreload" href="/simplemde/simplemde.mjs">
+	<link rel="stylesheet" href="/simplemde.css">
 	<!--		<link rel="stylesheet" type="text/css" href="/normalize.css" media="screen">-->
 	<!--				<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">-->
 	<!--				<link rel="stylesheet" type="text/css" href="/stylesheet.css" media="screen">-->
@@ -74,8 +76,7 @@
 	<!--				<link rel="canonical" href="https://simplemde.com/" />-->
 </head>
 <body>
-	<section class="panzoom svgcontainer" > 
-	</section>
+
 	<footer class="buttons">
 		<button class="switch">Switch pointer events</button>
 		<button class='zoom-out'>Zoom Out</button>
@@ -90,47 +91,68 @@
 <script nomodule>alert ("Your browser: does not support ES6 modules")</script>
 <script type = "module">
 	import {insertSvgElem} from "/insertsvg.mjs"
-	import {insertHtmlElemFromText} from "/insertxhtml.mjs"
+	import {appendHtmlElemFromText, insertFirstHtmlElemFromText} from "/insertxhtml.mjs"
+	import {SimpleMDE} from "/simplemde/simplemde.mjs"
+	let paper = insertA3(document.body)
+	decorateA3(paper)
+	// demonstrate text area simple editor
+	{
+		let fo = paper.addChild({tag:"foreignObject", width:247, height:40, x:25, y:50}) // requiredExtensions:"http://example.com/SVGExtensions/EmbeddedXHTML" is false in Chrome
+		appendHtmlElemFromText(fo, `<textarea spellcheck="false">Edit here</textarea>`)
+	}
+	// demonstrate markdown editor based on text area.
+	{
+		let fo = paper.addChild({tag:"foreignObject", width:247, height:400, x:25, y:100})
+		let ta = appendHtmlElemFromText(fo, `<textarea, class = "mde", id = "demo1">Markdown edit here</textarea>`)
+		let mde = new SimpleMDE({	element: ta, spellChecker: false})
+	}
 
-	// We rely on 'section' height 440 mm as defined in css. Add top and bottom margins in total 20 mm. 
-	// The effect should be that 1 svg user unit = 1 mm. viewBox can't be given in css.
-	let svga3 = insertSvgElem(document.querySelector(".svgcontainer"), "svg",  {baseProfile:"basic",
-		version:"2.0" ,  border:"true", viewBox:"0, 0, 297, 420", class:"a3"})
-	svga3.style.fontSize = 3.52777; // This is 10 pt in paper fonts. Unitless lengths can't be given through css.
-	let defs = svga3.addChild({tag:"defs"})
+
+	// Why does the font family prevent proper display of the icons in mde? Could we choose freely, 
+// but keep those fonts anyway? How does font-family work?
+
+
+
+function insertA3(parent){
+	// We rely on 'section' height 440 mm for scaling. 
+	// The effect should be that 1 svg user unit = 1 mm. 
+	let section = insertFirstHtmlElemFromText(parent, `<section class="panzoom svgcontainer", display = "block", height="440mm", width = "317mm"></section>`)
+	// Class a3 styling in css includes a margin of 10 + 10 mm inside the section.
+	let svga3 = insertSvgElem(section, "svg",  {baseProfile:"basic",
+		version:"2.0", viewBox:"0, 0, 297, 420", width:"297mm", height:"420mm",
+		class:"a3"})
+	//	Font size can't reliably be given in css.
+	svga3.style.fontSize = 3.52777 // This is 10 pt in paper fonts. User coordinate lengths can't be reliably given through css.
+	svga3.setAttribute("stroke-width", 0.1763888)
+	def_cm_grid(svga3)
+	// In order to prevent inheritance of margin 10 mm to any contents of the document,
+	// we make everything descend from a group with zero margin set in css.
 	let paper = svga3.addChild({ tag:"g", class:"paper"})
-	def_mm_grid()
-	def_cm_grid()
-	// to override css styles, put the attributes inside a "style" attribute:
-	paper.addChild({ tag:"rect", class:"paper", style:"fill:url(#cmgrid)"})
-
+	// Adding a nearly invisible cm / mm grid to the paper. Could go under 'decorations'.
+	paper.addChild({ tag:"rect", class:"paper", fill:"url(#cmgrid)"})
+	return paper
+}
+function decorateA3(paper){
+	paper.addChild({tag:"line", class:"co5", x1:25, y1:25, x2:272, y2:25})
+	paper.addChild({tag:"image", x:25, y:5, height:20, width: 20, objectfit:"contain", href:"/svg/es2017-ecmascript-logo.svg"})
+	paper.addChild({tag:"rect", x:25, y:32.52, height:2.48, width:5})
+	paper.addChild({tag:"text",  x:35, y:35, textContent:"Calibri 10 pt, x = 35mm, y = 30mm. Built for Chrome."})
 	paper.addChild({tag:"circle",  class:"co5", cx:0, cy:420, r:210})
-	paper.addChild({tag:"text",   x:0, y:420, class:"co5", textContent:"co5 circle"})
-	paper.addChild({tag:"rect", x:25, y:27.52, height:2.48, width:5})
-	let te = paper.addChild({tag:"text",  x:35, y:30, textContent:"Arial 10 pt, x = 35mm, y = 30mm"})
-				   
-	let fo = paper.addChild({tag:"foreignObject", width:100, height:50, x:25, y:50}) // requiredExtensions:"http://example.com/SVGExtensions/EmbeddedXHTML" is false in Chrome
-	let htmlstring = `<body xmlns="http://www.w3.org/1999/xhtml"><textarea spellcheck="false">Write here</textarea></body>`	
-	let bo =  insertHtmlElemFromText(fo, htmlstring)
-	//bo.style.fontSize = 3.52777;
-	//let ta = fo.addChild({tag:"textarea", x:25, y:55, width:200, height:200, textContent:"Hei hei", id:"feer", name:"feer", rows: "1", cols:"25"})
-
-//fr.setAttribute("stroke-width", "0.03")
-
-
-function def_mm_grid(){
-	let mmGrid = defs.addChild({tag:"pattern", id:"mmgrid", width:"1", height:"1", patternUnits:"userSpaceOnUse"})
-	// to use attributes including a '-', use setAttribute directly like this:
-	//mmGrid.addChild({tag:"path", d:"M 1 0 L 0 0 0 1", fill:"none", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.01")
-	mmGrid.addChild({tag:"rect", width:1, height:1, fill:"var(--co6)", stroke:"var(--co4)"}).setAttribute("stroke-width", "0.03")
+	paper.addChild({tag:"text",   x:0, y:420, class:"co5", textContent:"circle class co5"})
 }
 
-function def_cm_grid(){
+function def_cm_grid(svgport){
+	let defs = svgport.addChild({tag:"defs"})
+	function def_mm_grid(){
+		let mmGrid = defs.addChild({tag:"pattern", id:"mmgrid", width:"1", height:"1", patternUnits:"userSpaceOnUse"})
+		mmGrid.addChild({tag:"rect", width:1, height:1, fill:"var(--co6)", stroke:"var(--co4)"}).setAttribute("stroke-width", "0.03")
+	}
+	def_mm_grid()
 	let cmGrid = defs.addChild({tag:"pattern", id:"cmgrid", width:"10", height:"10", patternUnits:"userSpaceOnUse"})
-    cmGrid.addChild({tag:"rect", width:10, height:10, style:"fill:url(#mmgrid)", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.1")
+    cmGrid.addChild({tag:"rect", width:10, height:10, fill:"url(#mmgrid)", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.1")
 }
 
 
 </script>
-<script type = "module" src = "/EE_panzoom.mjs"></script>
+	<script type = "module" src = "/EE_panzoom.mjs"></script>
 </html>
