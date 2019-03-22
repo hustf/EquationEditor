@@ -1,21 +1,27 @@
-using Test
+#using Test
 using EquationEditor
+#import EquationEditor: LogLevel, Debug, Info, Wslog, with_logger
+#import EquationEditor.WebSocketLogger
 const EE = EquationEditor
+#with_logger(WebSocketLogger(stderr, Debug)) do
+#    @info "Info"
+#    @debug "Debug"
+#end
 const server, task = serveEE()
 EE.open_browser("chrome", url = "localhost:8000/interact.html")
+
+
 
 # Non recursive
 Revise.includet(joinpath(@__DIR__, "track_this.jl"))
 # Recursive:
 #Revise.track
 
-logger = Revise.debug_logger(; min_level=-1000)
-logger
+codelogger = Revise.debug_logger(; min_level = Base.CoreLogging.Debug)
 
 Revise.FileModules
 Revise.MethodSummary
 
-logger
 
 lastlog = logger.logs[end]
 

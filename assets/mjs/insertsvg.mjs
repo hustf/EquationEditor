@@ -1,10 +1,18 @@
-// We rely on outside scripting and styling to equate 1 mm to 1 user coordinate system unit.
-// In effect, units scaling can be dropped in this context. 
+// We rely on scripting and styling to equate 1 mm to 1 user coordinate system unit.
+// In effect, units scaling can be dropped in the svg context. 
 // The effect should be that .
+
+    // possible todo
     //import {toPX} from "/to-px/index.mjs"
     //var lineHeight = toPX('ex', element)
 
 
+// TODO use the extracted scaling info when inserting foreignobject. 
+
+
+
+import {insertFirstHtmlElemFromText} from "/insertxhtml.mjs"
+import {fixedSizeForeignObject, extractSVGScale, fixScale} from "/fixed-size-foreignObject.mjs"
 const ns = "http://www.w3.org/2000/svg"
 const nsl = "http://www.w3.org/1999/xlink"
 const nse = "http://www.w3.org/2001/xml-events"
@@ -76,7 +84,7 @@ function _createElementNSattributes(tag, attributes) {
 
 
 function _shouldHaveAddChild(tag, attributes){
-    if (["svg", "g", "a", "defs", "switch", "pattern", "foreignobject"].includes(tag.toLowerCase())) return true
+    if (["svg", "g", "a", "defs", "switch", "pattern", "foreignobject", "view"].includes(tag.toLowerCase())) return true
     return false
 }
 
@@ -131,4 +139,39 @@ function _attributesForGroup(tag, attributes, bbox){
     }
     // add id to g_attributes if....
     return [attributes, g_attributes, g_x, g_y]
+}
+
+
+
+export function insertA3(parent){
+	// We rely on 'section' height 440 mm for scaling.
+	// The effect should be that 1 svg user unit = 1 mm.
+	let section = insertFirstHtmlElemFromText(parent, `<section class="panzoom svgcontainer", display = "block", height="440mm", width = "317mm"></section>`)
+	// Class a3 styling in css includes a margin of 10 + 10 mm inside the section.
+	let svga3 = insertSvgElem(section, "svg",  {baseProfile:"basic",
+		version:"2.0", viewBox:"0, 0, 297, 420", width:"297mm", height:"420mm",
+		class:"a3"})
+	//	Font size can't reliably be given in css.
+	svga3.style.fontSize = 3.52777 // This is 10 pt in paper fonts. User coordinate lengths can't be reliably given through css.
+	svga3.setAttribute("stroke-width", 0.1763888)
+	def_cm_grid(svga3)
+	// In order to prevent inheritance of margin 10 mm to any contents of the document,
+	// we make everything descend from a group with zero margin set in css.
+	let paper = svga3.addChild({ tag:"g", class:"paper"})
+	// Adding a nearly invisible cm / mm grid to the paper. Could go under 'decorations'.
+	paper.addChild({ tag:"rect", class:"paper", fill:"url(#cmgrid)"})
+	// Add property scaleRatio to this node. Used for inserting ForeignObjects.
+	extractSVGScale(window, paper)
+	return paper
+}
+
+function def_cm_grid(svgport){
+	let defs = svgport.addChild({tag:"defs"})
+	function def_mm_grid(){
+		let mmGrid = defs.addChild({tag:"pattern", id:"mmgrid", width:"1", height:"1", patternUnits:"userSpaceOnUse"})
+		mmGrid.addChild({tag:"rect", width:1, height:1, fill:"var(--co6)", stroke:"var(--co4)"}).setAttribute("stroke-width", "0.03")
+	}
+	def_mm_grid()
+	let cmGrid = defs.addChild({tag:"pattern", id:"cmgrid", width:"10", height:"10", patternUnits:"userSpaceOnUse"})
+    cmGrid.addChild({tag:"rect", width:10, height:10, fill:"url(#mmgrid)", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.1")
 }

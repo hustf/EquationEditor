@@ -64,16 +64,17 @@
 	<!-- svg conceptualization -->
 	<link rel="modulepreload" href="./insertsvg.mjs">
 	<link rel="modulepreload" href="./insertxhtml.mjs">
+	<link rel="modulepreload" href="./fixed-size-foreignObject.mjs">
 	<link rel="stylesheet" type="text/css" href="./browncyan.css">
 
 	<!-- for markdown editor-->
 	<link rel="modulepreload" href="/simplemde/simplemde.mjs">
-	<link rel="stylesheet" href="/simplemde.css">
-	<!--		<link rel="stylesheet" type="text/css" href="/normalize.css" media="screen">-->
-	<!--				<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">-->
-	<!--				<link rel="stylesheet" type="text/css" href="/stylesheet.css" media="screen">-->
-	<!--				<link rel="stylesheet" type="text/css" href="/github-light.css" media="screen">-->
-	<!--				<link rel="canonical" href="https://simplemde.com/" />-->
+	<link rel="stylesheet" type="text/css" href="/simplemde.css">
+	<!-- 	<link rel="stylesheet" type="text/css" href="/css/normalize.css">-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" type="text/css">-->
+	<link rel="stylesheet" type="text/css" href="/css/stylesheet.css" media="screen">-->
+	<link rel="stylesheet" type="text/css" href="/css/github-light.css" media="screen">-->
+
 </head>
 <body>
 
@@ -90,8 +91,8 @@
 </body>
 <script nomodule>alert ("Your browser: does not support ES6 modules")</script>
 <script type = "module">
-	import {insertSvgElem} from "/insertsvg.mjs"
-	import {appendHtmlElemFromText, insertFirstHtmlElemFromText} from "/insertxhtml.mjs"
+	import {insertA3} from "/insertsvg.mjs"
+	import {appendHtmlElemFromText} from "/insertxhtml.mjs"
 	import {SimpleMDE} from "/simplemde/simplemde.mjs"
 	let paper = insertA3(document.body)
 	decorateA3(paper)
@@ -101,37 +102,22 @@
 		appendHtmlElemFromText(fo, `<textarea spellcheck="false">Edit here</textarea>`)
 	}
 	// demonstrate markdown editor based on text area.
-	{
-		let fo = paper.addChild({tag:"foreignObject", width:247, height:400, x:25, y:100})
-		let ta = appendHtmlElemFromText(fo, `<textarea, class = "mde", id = "demo1">Markdown edit here</textarea>`)
-		let mde = new SimpleMDE({	element: ta, spellChecker: false})
-	}
+
+//	let fo = paper.addChild({tag:"foreignObject", width:200, height:300, x:25, y:100})
+
+//	let ta = appendHtmlElemFromText(fo, `<textarea id="demo1"># Intro
+//Press ctrl-p to switch preview /edit.
+//</textarea>`)
+//		let mde = new SimpleMDE({	element: ta, spellChecker: false})
 
 
-	// Why does the font family prevent proper display of the icons in mde? Could we choose freely, 
+
+	// Why does the font family prevent proper display of the icons in mde? Could we choose freely,
 // but keep those fonts anyway? How does font-family work?
 
 
 
-function insertA3(parent){
-	// We rely on 'section' height 440 mm for scaling. 
-	// The effect should be that 1 svg user unit = 1 mm. 
-	let section = insertFirstHtmlElemFromText(parent, `<section class="panzoom svgcontainer", display = "block", height="440mm", width = "317mm"></section>`)
-	// Class a3 styling in css includes a margin of 10 + 10 mm inside the section.
-	let svga3 = insertSvgElem(section, "svg",  {baseProfile:"basic",
-		version:"2.0", viewBox:"0, 0, 297, 420", width:"297mm", height:"420mm",
-		class:"a3"})
-	//	Font size can't reliably be given in css.
-	svga3.style.fontSize = 3.52777 // This is 10 pt in paper fonts. User coordinate lengths can't be reliably given through css.
-	svga3.setAttribute("stroke-width", 0.1763888)
-	def_cm_grid(svga3)
-	// In order to prevent inheritance of margin 10 mm to any contents of the document,
-	// we make everything descend from a group with zero margin set in css.
-	let paper = svga3.addChild({ tag:"g", class:"paper"})
-	// Adding a nearly invisible cm / mm grid to the paper. Could go under 'decorations'.
-	paper.addChild({ tag:"rect", class:"paper", fill:"url(#cmgrid)"})
-	return paper
-}
+
 function decorateA3(paper){
 	paper.addChild({tag:"line", class:"co5", x1:25, y1:25, x2:272, y2:25})
 	paper.addChild({tag:"image", x:25, y:5, height:20, width: 20, objectfit:"contain", href:"/svg/es2017-ecmascript-logo.svg"})
@@ -141,16 +127,7 @@ function decorateA3(paper){
 	paper.addChild({tag:"text",   x:0, y:420, class:"co5", textContent:"circle class co5"})
 }
 
-function def_cm_grid(svgport){
-	let defs = svgport.addChild({tag:"defs"})
-	function def_mm_grid(){
-		let mmGrid = defs.addChild({tag:"pattern", id:"mmgrid", width:"1", height:"1", patternUnits:"userSpaceOnUse"})
-		mmGrid.addChild({tag:"rect", width:1, height:1, fill:"var(--co6)", stroke:"var(--co4)"}).setAttribute("stroke-width", "0.03")
-	}
-	def_mm_grid()
-	let cmGrid = defs.addChild({tag:"pattern", id:"cmgrid", width:"10", height:"10", patternUnits:"userSpaceOnUse"})
-    cmGrid.addChild({tag:"rect", width:10, height:10, fill:"url(#mmgrid)", stroke:"var(--co5)"}).setAttribute("stroke-width", "0.1")
-}
+
 
 
 </script>

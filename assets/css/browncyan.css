@@ -9,10 +9,10 @@
 --co7: rgb(163,236,248);
 --co8: rgb(129,218,239);
 --co9: rgb(87,166,197);	}
-/*   
+/*
 1 pt = 1 typographical point (as used in MS Word) =  0.352777mm
 1 px = 0.26458333 mm, on low resolution devices px = pixel.
-1 pc = 1 pica = 12 pt = 4.2324 mm 
+1 pc = 1 pica = 12 pt = 4.2324 mm
 0.5 pt = 'thin visible border line on paper' = 0.1763888 mm
 12 pt = 4.23324 mm
 10 pt = 3.52777 mm
@@ -29,7 +29,7 @@ svg.a3 {
    padding:0;
    }
 
-g.paper {                    
+g.paper {
     margin:0mm;
     }
 
@@ -43,12 +43,12 @@ header, footer {padding: 0.5em 0.5em 0.8em 0.5em;
     background:var(--co2);
     color:var(--co7);
    }
-footer{position:fixed; 
+footer{position:fixed;
     bottom:0;
     left:0;
    }
 
-button { border-radius: 0.3em; 
+button { border-radius: 0.3em;
     background:var(--co3);
     border-color:var(--co4);
     color:var(--co5)}
@@ -57,8 +57,8 @@ button.zoom-in {border-radius: 0 0.67em 0.67em 0;}
 button.previous {border-radius: 0.67em 0 0 0.67em;}
 button.next {border-radius: 0 0.67em 0.67em 0;}
 input {vertical-align: bottom;}
-input[type="text"] {color:var(--co9); 
-                     text-align:center; 
+input[type="text"] {color:var(--co9);
+                     text-align:center;
                      background-color:var(--co5);}
 text {
     font-family: Calibri, Helvetica, sans-serif;
@@ -72,14 +72,13 @@ circle {stroke:var(--co2);
     fill:var(--co3);
     fill-opacity:0.6;
     stroke-width:.05em;
-    stroke-opacity:0.6; 
+    stroke-opacity:0.6;
     }
 
 
-textarea:not(.mde) {
+textarea {
    -webkit-appearance: none;
    -moz-appearance:none;
-   font-family: inherit; /* 1 */
    font-family: Calibri, Helvetica, sans-serif;
    font-size: inherit; /* 1 */
    line-height: inherit; /* 1 */
@@ -92,15 +91,17 @@ textarea:not(.mde) {
    border:none;
    resize: none;
 }
-foreignObject {
-   all: revert;
- }
-.co1{stroke:var(--co1);fill:var(--co1)}
-.co2{stroke:var(--co1);fill:var(--co2)}
-.co3{stroke:var(--co2);fill:var(--co3)}
-.co4{stroke:var(--co3);fill:var(--co4)}
-.co5{stroke:var(--co4);fill:var(--co5)}
-.co6{stroke:var(--co5);fill:var(--co6)}
-.co7{stroke:var(--co6);fill:var(--co7)}
-.co8{stroke:var(--co7);fill:var(--co8)}
-.co9{stroke:var(--co8);fill:var(--co9)}
+
+.co1{stroke:var(--co1);fill:var(--co1);}
+.co2{stroke:var(--co1);fill:var(--co2);}
+.co3{stroke:var(--co2);fill:var(--co3);}
+.co4{stroke:var(--co3);fill:var(--co4);}
+.co5{stroke:var(--co4);fill:var(--co5);}
+.co6{stroke:var(--co5);fill:var(--co6);}
+.co7{stroke:var(--co6);fill:var(--co7);}
+.co8{stroke:var(--co7);fill:var(--co8);}
+.co9{stroke:var(--co8);fill:var(--co9);}
+/* markdown editor / codemirror puts its visible content in divs.
+   We could use that to block inheritance from the svg*/
+
+div {font-size:0.2645833rem;}

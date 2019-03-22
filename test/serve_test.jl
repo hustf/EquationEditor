@@ -1,14 +1,10 @@
 using Test
 using EquationEditor
 const EE = EquationEditor
-#import Base.CoreLogging: LogLevel, @logmsg
-#logr = Base.CoreLogging.current_logger()
-#logr.previous_logger.min_level = Base.CoreLogging.LogLevel(-10000)
-#@logmsg Base.CoreLogging.LogLevel(-10000) "Show debug logs"
 const server, task = serveEE()
 @test !isready(server.out)
 @test !istaskdone(task)
-
+close(server)
 #= For debugging
 server
 task

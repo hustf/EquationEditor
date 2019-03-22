@@ -1,14 +1,16 @@
 module EquationEditor
-export latexify, serveEE
 using WebSockets
-import WebSockets:  Logging.shouldlog,
-                    Logging.ConsoleLogger
-shouldlog(::ConsoleLogger, level, _module, group, id) = _module != WebSockets.HTTP.Servers
-import WebSockets.Dates
+import WebSockets.ServerWS
 using Latexify
-using Revise
+import WebSockets: with_logger,
+                   Dates,
+                   LogLevel,
+                   Logging.Debug,
+                   Logging.Info,
+                   Logging.Warn,
+                   Wslog
+
+export latexify, serveEE
+include(joinpath(dirname(pathof(WebSockets)), "..", "benchmark", "functions_open_browsers.jl"))
 include("serve.jl")
-include("functions_open_browsers.jl")
-
-
-end #module
+end  #module

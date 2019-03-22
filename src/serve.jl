@@ -1,5 +1,5 @@
 include("h_file.jl")
-const PORT = 8000
+const EEPORT = 8000
 
 function http_gatekeeper(req)
     if req.method == "GET"
@@ -20,9 +20,12 @@ function ws_gatekeeper(req, ws)
         coroutine_pagecontrol(ws)
     end
 end
-function serveEE()
-    server = WebSockets.ServerWS(http_gatekeeper, ws_gatekeeper)
-    task = @async WebSockets.serve(server, port = PORT)
-    @info "http://localhost:$PORT"
+
+function serveEE(logger= WebSocketLogger())
+    server = ServerWS(http_gatekeeper, ws_gatekeeper)
+    task = @async   with_logger(logger) do
+        WebSockets.serve(server, port = EEPORT)
+    end
+    @info "http://localhost:$EEPORT"
     return server, task
 end

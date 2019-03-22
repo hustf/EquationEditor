@@ -10,7 +10,7 @@ const FOLDERHOME = replace(joinpath(@__DIR__, "..", "assets") |> realpath, "\\" 
 const RGX_FOLDERHOME = Regex("^"* FOLDERHOME)
 
 "Contains the local path to folders to expose. Subfolders will also be exposed."
-const LOCFLDRS = [ "/js/", "/html/", "/svg/", "/img/", "/mjs/", "/css/"]
+const LOCFLDRS = [ "/js/", "/html/", "/svg/", "/img/", "/mjs/", "/css/", "/fonts/"]
 const IMGEXT = r"jpg|jpeg|png|gif|tiff|tif"
 const TINDEX ="""<!DOCTYPE html><html><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,7 +89,9 @@ end
 
 _bck2fwdslash(pth) = replace(pth, "\\" => "/")
 _doubleslash2slash(pth) = replace(pth, "//" => "/")
-_nobadchars(pth) = replace(pth, r"^\s*(?:#|$<>~!)" => "")
+_nobadchars(pth) = replace(pth, r"^\s*(#|$<>~!)" => "")
+_noschemechars(pth) = replace(pth, r";|:|@|=|&" => "")
+_noquery(pth) = replace(pth, "?" => "")
 _nojumpup(pth) = replace(pth,r"\.{2,}" => "")
 _nokeywords(pth) = replace(pth, r"prn"i=>"")
 _maybeindexhtml(pth) = pth =="" || pth[end]=='/' ? pth * "index.html" : pth
@@ -117,12 +119,14 @@ function _unescapeuri(str)
     end
    return String(r)
 end
+
+
 "
-Makes an attempt at safeguarding against malicious requests before file access.
-Also adds 'index.html' if request does not specify a possible file.
+Makes an attempt at safeguarding against malicious requests or mishandled requests before file access.
+Does not failsafe against all strings, e.g. passing 'ø' may crash the handler and send no response.
 "
 _censoredrequest(pubreq::String) = pubreq |>  _bck2fwdslash |> _unescapeuri |> _nobadchars |>
-                                   lowercase |> _nojumpup |> _nokeywords |>
+                                   _noschemechars |> _noquery |> lowercase |> _nojumpup |> _nokeywords |>
                                     _maybeindexhtml |> _doubleslash2slash |> _startslash
 
 """
@@ -194,10 +198,10 @@ Used for building HTTP.Response"
 function _rawresponse(pubreq::String)
     topfolder, modreq = pubreq |>  _topfolder_modreq
     longreq = modreq |> _longfilename
-    @debug("Public request:\t" * pubreq *
-        "\n\tModified request:\t" * modreq *
-        "\n\tTop folder:\t" * topfolder *
-        "\n\tLong request:\t" * longreq)
+    #@debug("Public request:\t" * pubreq *
+    #    "\n\tModified request:\t" * modreq *
+    #    "\n\tTop folder:\t" * topfolder *
+    #    "\n\tLong request:\t" * longreq)
     if occursin(r"index.htm"i, splitdir(modreq)[2]) && isdir(splitdir(longreq)[1])
         status = 200
         body = _htmlindex(splitdir(longreq)[1])
@@ -235,6 +239,8 @@ function _handle_file(pubreq::WebSockets.Request, resp::WebSockets.Response)
     resp.status = status
     if status != 200
         @info "Failure to handle $(pubreq.target)"
+    else
+        @debug "Served $(pubreq.target)"
     end
     resp
 end
